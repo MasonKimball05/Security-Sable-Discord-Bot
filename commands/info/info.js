@@ -5,6 +5,7 @@ module.exports = {
     name: "info",
     description: "sends information on the bot",
     category: "fun",
+    aliases: ["i"],
     accessableby: "Members", 
     run: async (bot, message, args) => {    
     const embed = new Discord.MessageEmbed()

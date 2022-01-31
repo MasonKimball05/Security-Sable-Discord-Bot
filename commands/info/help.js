@@ -93,6 +93,12 @@ module.exports = {
             ? command.description
             : "No description for this command."
         )
+        .addField(
+          "TIMEOUT:",
+          command.timeout
+          ? command.timeout
+          : "No timeout timer for this command."
+        )
         .setFooter(`Requested by ${message.author.tag}`,message.author.displayAvatarURL({ dynamic: true }))
         .setTimestamp()
         .setColor(roleColor);

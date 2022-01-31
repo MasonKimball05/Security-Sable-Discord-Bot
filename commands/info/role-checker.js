@@ -2,7 +2,7 @@ const { MessageEmbed, Permissions } = require('discord.js');
 
 module.exports = {
     name: 'rolename',
-    aliases: ["rolecheck", "role-check", "role-name"],
+    aliases: ["rolecheck", "role-check", "role-name", "role-checker", "role-check"],
     description: "checks your roles",
     category: "info",
     accessableby: "Members",
