@@ -31,7 +31,7 @@ module.exports = async (bot, message) => {
     if (command.timeout) {
       if (Timeout.has(`${message.author.id}${command.name}`)) {
         return message.reply(
-          `You can only use this command every ${ms(command.timeout)}!`
+          `You can only use this command, "${command.name}", every ${ms(command.timeout)}!`
         );
       } else {
         command.run(bot, message, args);

@@ -1,6 +1,12 @@
-const { MessageEmbed } = require('discord.js');
-const { stripIndents } = require("common-tags");
-const { promptMessage } = require("../../funct.js");
+const {
+    MessageEmbed
+} = require('discord.js');
+const {
+    stripIndents
+} = require("common-tags");
+const {
+    promptMessage
+} = require("../../funct.js");
 const config = require("../../config.json")
 const modlog = config.modlog
 
@@ -14,10 +20,10 @@ module.exports = {
         if (message.partial) await message.fetch();
         bot.modlog = `<#${modlog}>`;
 
-            // No author permissions
+        // No author permissions
         if (!message.member.hasPermission("BAN_MEMBERS")) {
             return message.reply("❌ You do not have permissions to ban members. Please contact a staff member")
-        
+
         }
 
         // No args
@@ -35,7 +41,7 @@ module.exports = {
             return message.reply("❌ I do not have permissions to ban members. Please contact a staff member")
         }
 
-        const toBan = message.mentions.members.first() || message.guild.members.get(args[0]) 
+        const toBan = message.mentions.members.first() || message.guild.members.get(args[0])
         if (!toBan) return message.channel.send("You did not ping someone to ban!")
 
         // No member found
@@ -52,22 +58,22 @@ module.exports = {
         if (!toBan.bannable) {
             return message.reply("I can't ban that person due to role hierarchy, I suppose.")
         }
-        
+
         const embed = new MessageEmbed()
             .setColor("#ff0000")
             .setThumbnail(toBan.user.displayAvatarURL())
             .setFooter(message.member.displayName, message.author.displayAvatarURL())
             .setTimestamp()
-            .setDescription(stripIndents`**- baned member:** ${toBan} (${toBan.id})
+            .setDescription(stripIndents `**- baned member:** ${toBan} (${toBan.id})
             **- baned by:** ${message.member} (${message.member.id})
             **- Reason:** ${args.slice(1).join(" ")}`);
 
-            const no = new Discord.MessageEmbed()
+        const no = new Discord.MessageEmbed()
             .setColor("RED")
             .setTimestamp()
             .setThumbnail(toBan.user.displayAvatarURL())
             .setFooter(message.member.displayName, message.author.displayAvatarURL())
-            .setDescription(stripIndents`**- Ban Canceled:** ${toBan} (${toBan.id})
+            .setDescription(stripIndents `**- Ban Canceled:** ${toBan} (${toBan.id})
             **- Canceled by:** ${message.member} (${message.member.id})
             **- Initial ban reason:** ${args.slice(1).join(" ")}`);
 
@@ -96,10 +102,10 @@ module.exports = {
                 if (!modlog) return message.channel.send(embed)
             } else if (emoji === "❌") {
                 msg.delete()
-                .then(() => {
-                    message.guild.channels.cache.get(modlog).send(no);
-                    if (!modlog) return message.channel.send(no);
-                })
+                    .then(() => {
+                        message.guild.channels.cache.get(modlog).send(no);
+                        if (!modlog) return message.channel.send(no);
+                    })
 
                 message.reply(`ban canceled.`)
             }

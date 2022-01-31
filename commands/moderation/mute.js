@@ -16,7 +16,7 @@ module.exports = {
         let mainrole = `<@&${932721322344185926}>`;
         let mute = `<@&${932721354250289172}>`;
 
-        if (!role) return message.reply("I couldn't find the 'muted' role.")
+        if (!mute) return message.reply("I couldn't find the 'muted' role.")
 
         member.roles.remove(mainrole)
         member.roles.add(mute);

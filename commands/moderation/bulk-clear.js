@@ -3,11 +3,11 @@ const config = require("../../config.json")
 const modlog = config.modlog
 
 module.exports = {
-    name: "clear",
-    description: "Clears messages from chat",
+    name: "bulk-clear",
+    description: "Clears 100 messages from chat",
     category: "moderation",
     accessableby: "Moderators", 
-    aliases: ["purge", "delete"],
+    aliases: ["bulk-purge", "bulk-delete", "blc"],
     run: async (bot, message, args) => {
         bot.modlog = `<#${modlog}>`;
         if (message.deletable) message.delete();
@@ -15,17 +15,9 @@ module.exports = {
 
                 if (!message.member.permissions.has("MANAGE_MESSAGES")) // sets the permission
                     return message.channel.send(`You do not have the correct permissions to do this action, ${message.author.username}`);
-                if (!args[0]) {
-                    return message.channel.send(`Please enter a amount 1 to 100`)
-                }
         
-                let deleteAmount;
-        
-                if (parseInt(args[0]) > 100 ) {
-                    deleteAmount = 100;
-                } else {
-                    deleteAmount = parseInt(args[0]);
-                }
+                let deleteAmount = 100;
+
                 await message.channel.bulkDelete(deleteAmount, true)
 
                 const embed = new MessageEmbed()
