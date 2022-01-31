@@ -17,7 +17,7 @@ module.exports = {
                 case "online":
                     status = "🟢 online";
                     break;
-                case "dnd":
+                case "do_not_disturb":
                     status = "🔴 dnd";
                     break;
                 case "idle":
@@ -29,7 +29,7 @@ module.exports = {
             }
     
             const embed = new MessageEmbed()
-                .setTitle(`${user.user.username} stats`)
+                .setTitle(`${user.user.username} information`)
                 .setColor(user.displayHexColor === '#000000' ? '#ffffff' : user.displayHexColor)
                 .setThumbnail(user.user.displayAvatarURL({dynamic : true}))
                 .addFields(
