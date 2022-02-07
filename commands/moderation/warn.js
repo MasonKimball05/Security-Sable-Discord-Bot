@@ -13,6 +13,7 @@ module.exports = {
 
     let user = message.mentions.users.first();
     if (!user) return message.channel.send(`You did not mention a user!`);
+    if (user == message.author) return message.reply(`you cannot warn yourself!`)
     if (!args.slice(1).join(" "))
       return message.channel.send(`You did not specify a reason!`);
     warns.findOne(

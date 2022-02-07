@@ -7,4 +7,3 @@ module.exports = {
         return message.reply("Hello")
 }
 }
-

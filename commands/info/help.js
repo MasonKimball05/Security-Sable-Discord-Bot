@@ -1,10 +1,12 @@
 const { MessageEmbed } = require("discord.js");
 const { readdirSync } = require("fs");
 const db = require("../../db");
+const sourcebin = require("sourcebin_js");
 
 module.exports = {
   name: "help",
   aliases : ['h'],
+  category: "helpful",
   description: "Shows all available bot commands.",
   run: async (bot, message, args) => {
 
@@ -40,6 +42,18 @@ module.exports = {
         };
 
         categories.push(data);
+        if (categories.length > 1024) {
+          sourcebin
+          .create([
+            {
+              title: "JavaScript code",
+              description: 'This code was created in "' + message.createdAt + '"',
+              name: "Made By " + message.author.username,
+              content: Content,
+              languageId: "JavaScript"
+            }
+          ])
+        }
       });
 
       const embed = new MessageEmbed()
@@ -103,6 +117,6 @@ module.exports = {
         .setTimestamp()
         .setColor(roleColor);
       return message.channel.send(embed);
-    }
+  }
   },
-};
+}

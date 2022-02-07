@@ -1,6 +1,13 @@
-const { MessageEmbed } = require('discord.js');
-const { stripIndents } = require("common-tags");
-const { promptMessage } = require("../../funct.js");
+const {
+    MessageEmbed,
+    Discord
+} = require('discord.js');
+const {
+    stripIndents
+} = require("common-tags");
+const {
+    promptMessage
+} = require("../../funct.js");
 const config = require("../../config.json")
 const modlog = config.modlog
 
@@ -14,10 +21,10 @@ module.exports = {
         if (message.partial) await message.fetch();
         bot.modlog = `<#${modlog}>`;
 
-            // No author permissions
+        // No author permissions
         if (!message.member.hasPermission("BAN_MEMBERS")) {
             return message.reply("❌ You do not have permissions to ban members. Please contact a staff member")
-        
+
         }
 
         // No args
@@ -51,22 +58,22 @@ module.exports = {
         if (!toKick.kickable) {
             return message.reply("I can't kick that person due to role hierarchy, I suppose.")
         }
-                
+
         const embed = new MessageEmbed()
             .setColor("#ff0000")
             .setThumbnail(toKick.user.displayAvatarURL())
             .setFooter(message.member.displayName, message.author.displayAvatarURL())
             .setTimestamp()
-            .setDescription(stripIndents`**- Kicked member:** ${toKick} (${toKick.id})
+            .setDescription(stripIndents `**- Kicked member:** ${toKick} (${toKick.id})
             **- Kicked by:** ${message.member} (${message.member.id})
             **- Reason:** ${args.slice(1).join(" ")}`);
 
-            const no = new Discord.MessageEmbed()
+        const no = new MessageEmbed()
             .setColor("RED")
             .setTimestamp()
             .setThumbnail(toKick.user.displayAvatarURL())
             .setFooter(message.member.displayName, message.author.displayAvatarURL())
-            .setDescription(stripIndents`**- Kick Canceled:** ${toKick} (${toKick.id})
+            .setDescription(stripIndents `**- Kick Canceled:** ${toKick} (${toKick.id})
             **- Canceled by:** ${message.member} (${message.member.id})
             **- Initial kick reason:** ${args.slice(1).join(" ")}`);
 
@@ -91,15 +98,16 @@ module.exports = {
                     });
 
                 message.guild.channels.cache.get(modlog).send(embed);
+                toKick.send(`you have been kicked from ${message.guild.name} \n\nReason: ${args.slice(1).join(" ")}`)
             } else if (emoji === "❌") {
                 msg.delete()
-                .then(() => {
-                    message.guild.channels.cache.get(modlog).send(no);
-                    if (!modlog) return message.channel.send(no);
-                })
-                
+                    .then(() => {
+                        message.guild.channels.cache.get(modlog).send(no);
+                        if (!modlog) return message.channel.send(no);
+                    })
+
                 message.reply(`Kick canceled.`)
-                    
+
             }
         });
 

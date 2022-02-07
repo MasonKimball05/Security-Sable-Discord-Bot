@@ -3,8 +3,8 @@ const { MessageEmbed } = require("discord.js")
 module.exports = {
     name: "scp",
     description: "gets info on SCPs and the foundation",
-    accessableby: "Moderators",
-    category: "Moderation",
+    accessableby: "Members",
+    category: "fun",
     run: async (bot, message, args) => {
         let user = message.member
 

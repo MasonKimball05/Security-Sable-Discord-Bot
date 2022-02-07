@@ -15,7 +15,7 @@ module.exports = {
             .addFields(
                 {
                     name: '🌐 Servers',
-                    value: `Avilable ${bot.guilds.cache.size} servers.`,
+                    value: `Avilable in ${bot.guilds.cache.size} servers.`,
                     inline: true
                 },
                 {

@@ -6,7 +6,7 @@ module.exports = {
     category: "fun",
     accessableby: "Members", 
     run: async (bot, message, args) => {    
-        message.channel.send('%meme - sends a meme from r/memes \n%wholesome - sends a meme from r/wholesome \nprequel - sends a meme from r/prequel')
+        message.channel.send('%meme - sends a meme from r/memes \n%wholesome - sends a meme from r/wholesome \n%prequel - sends a meme from r/prequel')
 }
 
 }

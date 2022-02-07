@@ -68,7 +68,7 @@ module.exports = {
             **- baned by:** ${message.member} (${message.member.id})
             **- Reason:** ${args.slice(1).join(" ")}`);
 
-        const no = new Discord.MessageEmbed()
+        const no = new MessageEmbed()
             .setColor("RED")
             .setTimestamp()
             .setThumbnail(toBan.user.displayAvatarURL())

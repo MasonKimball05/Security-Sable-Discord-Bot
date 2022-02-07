@@ -3,7 +3,7 @@ const { MessageEmbed } = require("discord.js")
 const { promptMessage } = require("../../funct.js");
 module.exports = {
   name: "bug-report",
-  category: "info",
+  category: "helpful",
   description: "Report a bug to the bot developer",
   aliases: ["bug_report", "bugs", "report-bugs", "report"],
   timeout: 10000,
@@ -29,15 +29,15 @@ module.exports = {
           .setDescription(`Thank you ${reporter} for reporting - **${bug}**!`)
           .setTimestamp()
           .setURL(`https://discord.gg/vXSNuVA3Um`)
-          .setFooter(`Reported by ${message.author.tag}`, message.author.displayAvatarURL({ dynamic: true }))
+          .setFooter(`Reported by ${message.author.tag}`, message.author.displayAvatarURL({ dynamic: true }), `you can join the support server [here](${supportinv})`)
             message.channel.send(r)
 
             const report = new Discord.MessageEmbed()
             .setTitle('Bug Report')
             .setDescription(`Bug: **${bug}** \n\nInvite for ${server}, https://discord.gg/` + invite.code)
             .setTimestamp()
-            .setFooter(`This bug was reported by ${reporter}, ${reporter.user.id}, in ${server}`)
-            bot.channels.cache.get('932489232008769546').send(report)
+            .setFooter(`This bug was reported by ${reporter} in ${server}`)
+            bot.channels.cache.get('937913415018635284').send(report)
   
 
           } else if (emoji === "❌") {

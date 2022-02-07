@@ -11,7 +11,7 @@ module.exports = {
     const embed = new Discord.MessageEmbed()
     .setTitle('Info')
     .setAuthor(message.member.displayName)
-    .setDescription('```I am a discord bot created by Arkan#0066 for the purpose of helping him and to further challenge his love to program!```')
+    .setDescription('```I am a discord bot created by Arkan#0066 for the purpose of helping out the Party Animals Server!```')
     .addFields(
      { name: 'Details', value: '```Specifics```' },
      { name: 'Coded by', value: '```Arkan#0066```', inline: true },
@@ -20,9 +20,9 @@ module.exports = {
     .addField('Support Server', '[⚙️ Click here to join support server](https://discord.gg/mhNw9SbV3p)', true)
     .setURL('https://discord.gg/mhNw9SbV3p')
     .setTimestamp()
-    .setThumbnail('https://i.imgur.com/k5zZuZO.png')
+    //.setThumbnail('https://i.imgur.com/k5zZuZO.png')
     .setColor('#ACE5EE')
-    .setFooter(`Requested by ${message.member.displayName}`, 'https://i.imgur.com/k5zZuZO.png',);
+    .setFooter(`Requested by ${message.member.displayName}`, /*'https://i.imgur.com/k5zZuZO.png',*/);
     message.channel.send(embed)
 }
 }

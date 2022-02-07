@@ -31,7 +31,7 @@ module.exports = {
         .setDescription(`${message.member} has dm\'d ${user}. **Message**: ${args.slice(1).join(" ")}`)
         .setTimestamp()
         .setColor(user.displayHexColor === '#000000' ? '#ffffff' : user.displayHexColor)
-        .then(() => message.channel.send(embed));
+        message.channel.send(embed);
         message.guild.channels.cache.get(modlog).send(embed)
         if(!modlog) return;
     },

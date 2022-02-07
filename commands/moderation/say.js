@@ -6,7 +6,7 @@ module.exports = {
     name: "say",
     description: "Get the bot to say things",
     accessableby: "Moderators",
-    category: "Moderation",
+    category: "moderation",
     run: async (bot, message, args) => {
       message.delete();
       bot.modlog = `<#${modlog}>`;
@@ -14,10 +14,10 @@ module.exports = {
       if (!message.member.hasPermission("MANAGE_MESSAGES"))
           return message.reply("You don't have the required permissions to use this command.")
 
-      if (args.length < 0)
+      if (!args[0])
           return message.reply("Nothing to say?")
 
-      if (args[0].toLowerCase() === "embed") {
+      if (args[0] === "embed") {
         let user = message.member;
         let chnl = message.channel
           const embed = new MessageEmbed()
