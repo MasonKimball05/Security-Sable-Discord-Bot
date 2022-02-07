@@ -34,6 +34,19 @@ client.on("message", async (message) => {
   message.author; //-- User based
   require("./events/guild/message")(client, message);
 });
+const { GiveawaysManager } = require("discord-giveaways");
+const manager = new GiveawaysManager(client, {
+    storage: "./handlers/giveaways.json",
+    updateCountdownEvery: 10000,
+    default: {
+        botsCanWin: false,
+        exemptPermissions: [ "MANAGE_MESSAGES", "ADMINISTRATOR" ],
+        embedColor: "#FF0000",
+        reaction: "🎉"
+    }
+});
+
+client.giveawaysManager = manager;
 
 const db = require("./db")
 client.on("message", async message => {
@@ -50,7 +63,10 @@ client.on("message", async message => {
   if (cmd === `hello`) {
     message.reply(`hello!`)
   }
-  if (cmd === `Hello`) {
+  if (cmd === `hi`) {
+    message.reply(`hello`)
+  }
+  if (cmd === `Hello`){
     message.reply(`hello!`)
   }
 })
@@ -67,4 +83,4 @@ bot.on('clickMenu', menu => {
     Nuggies.dropclick(client, menu);
 });
 */
-client.login('Not for your eyes')
+client.login('OTMxNjI2NDU1NDcxODg2Mzg3.YeHKvw.5H710on6kLiaJj2UUHLJdETSZGo')
