@@ -83,4 +83,4 @@ bot.on('clickMenu', menu => {
     Nuggies.dropclick(client, menu);
 });
 */
-client.login(`Not for your eyes`)
+client.login(`SECRET`)
