@@ -1,5 +1,4 @@
 const Discord = require("discord.js");
-require('dotenv').config();
 const client = new Discord.Client({
   disableMentions: "everyone",
   partials: ["REACTION", "MESSAGE", "GUILD_MEMBER", "CHANNEL"],
@@ -40,7 +39,7 @@ const manager = new GiveawaysManager(client, {
     updateCountdownEvery: 10000,
     default: {
         botsCanWin: false,
-        exemptPermissions: [ "MANAGE_MESSAGES", "ADMINISTRATOR" ],
+        exemptPermissions: ["MANAGE_MESSAGES", "ADMINISTRATOR"],
         embedColor: "#FF0000",
         reaction: "🎉"
     }
