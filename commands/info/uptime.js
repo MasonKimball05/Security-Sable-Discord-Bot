@@ -12,7 +12,12 @@ module.exports = {
     let minutes = Math.floor(client.uptime / 60000) % 60;
     let seconds = Math.floor(client.uptime / 1000) % 60;
     
-    return message.channel.send(`__Uptime:__\n${days}d ${hours}h ${minutes}m ${seconds}s`);
+    const up = new MessageEmbed()
+    .addField(`Uptime:`, `${days} days ${hours} hours ${minutes} minutes ${seconds} seconds`)
+    .setColor("RED")
+    .setTimestamp()
+    .setFooter(`Requested by ${message.author.tag}`)
+    return message.channel.send(up);
   }
   
 }

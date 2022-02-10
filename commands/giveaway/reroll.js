@@ -2,8 +2,7 @@ const { MessageEmbed } = require('discord.js')
 const ms = require('ms');
 module.exports = {
   name: "reroll",
-  description:
-    "Get list of all command and even get to know every command detials",
+  description: "Get list of all command and even get to know every command detials",
   usage: "help <cmd>",
   category:"giveaway",
     run: async (bot, message, args) => {

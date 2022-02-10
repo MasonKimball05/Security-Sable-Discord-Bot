@@ -10,7 +10,7 @@ module.exports = {
     run: async (bot, message, args) => {    
     const embed = new Discord.MessageEmbed()
     .setTitle('Info')
-    .setAuthor(message.member.displayName)
+    .setAuthor(message.member.tag)
     .setDescription('```I am a discord bot created by Arkan#0066 for the purpose of helping out the Party Animals Server!```')
     .addFields(
      { name: 'Details', value: '```Specifics```' },

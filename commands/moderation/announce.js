@@ -13,7 +13,7 @@ const Discord = require('discord.js')
 module.exports = {
   name: "announce",
   category: "moderation",
-  description: "Get the bot to say what ever you want in a specific channel.",
+  description: "Get the bot to send an announcement a specific channel.",
   usage: "<channel id> <msg>",
   timeout: 150000,
   accessableby: "Moderators",

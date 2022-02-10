@@ -6,6 +6,7 @@ module.exports = {
     description: "has the bot send a poll in your channel",
     category: "fun",
     accessableby: "Members", 
+    aliases: ["chnlpoll"],
     run: async (bot, message, args) => { 
     if(message.member.hasPermission("MANAGE_MESSAGES")) {
 

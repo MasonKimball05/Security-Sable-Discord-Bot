@@ -3,7 +3,7 @@ const ms = require('ms');
 module.exports = {
         name: "end-give",
         description: "Ending giveaway",
-        accessableby: "Administrator",
+        accessableby: "Moderators",
         category: "giveaway",
         aliases: ["giveaway-end", "end-ga"],
         usage: '<giveawaymessageid>',

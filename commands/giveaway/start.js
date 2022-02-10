@@ -3,7 +3,7 @@ const ms = require('ms');
 module.exports = {
     name: "start",
         description: "Creating giveaway",
-        accessableby: "Administrator",
+        accessableby: "Moderators",
         category: "giveaway",
         aliases: ["giveaway-start"],
         usage: '<channel> <duration> <winners>, <prize>',
@@ -13,7 +13,7 @@ module.exports = {
     }
 
     // Giveaway channel
-    let giveawayChannel = message.mentions.channels.first();
+    let giveawayChannel = message.mentions.channels.first() || message.guild.channels.cache.get(args[0]);
     // If no channel is mentionned
     if(!giveawayChannel){
         return message.channel.send(':x: You have to mention a valid channel!');

@@ -13,7 +13,7 @@ module.exports = {
         if (message.deletable) message.delete();
         if (message.partial) await message.fetch();
 
-                if (!message.member.permissions.has("MANAGE_MESSAGES")) // sets the permission
+                if (!message.member.permissions.has("MANAGE_MESSAGES")) 
                     return message.channel.send(`You do not have the correct permissions to do this action, ${message.author.username}`);
                 if (!args[0]) {
                     return message.channel.send(`Please enter a amount 1 to 100`)

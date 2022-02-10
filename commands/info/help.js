@@ -69,11 +69,7 @@ module.exports = {
         .setColor(roleColor);
       return message.channel.send(embed);
     } else {
-      const command =
-        bot.commands.get(args[0].toLowerCase()) ||
-        bot.commands.find(
-          (c) => c.aliases && c.aliases.includes(args[0].toLowerCase())
-        );
+      const command =bot.commands.get(args[0].toLowerCase()) || bot.commands.find((c) => c.aliases && c.aliases.includes(args[0].toLowerCase()));
 
       if (!command) {
         const embed = new MessageEmbed()
@@ -85,34 +81,12 @@ module.exports = {
       const embed = new MessageEmbed()
         .setTitle("Command Details:")
         .addField("PREFIX:", `\`${(await db.get(`Prefix_${message.guild.id}`)) ? await db.get(`Prefix_${message.guild.id}`) : "%"}\``)
-        .addField(
-          "COMMAND:",
-          command.name ? `\`${command.name}\`` : "No name for this command."
-        )
-        .addField(
-          "ALIASES:",
-          command.aliases
-            ? `\`${command.aliases.join("` `")}\``
-            : "No aliases for this command."
-        )
-        .addField(
-          "USAGE:",
-          command.usage
-            ? `\`${(await db.get(`Prefix_${message.guild.id}`)) ? await db.get(`Prefix_${message.guild.id}`) : "%"}${command.name} ${command.usage}\``
-            : `\`${(await db.get(`Prefix_${message.guild.id}`)) ? await db.get(`Prefix_${message.guild.id}`) : "%"}${command.name}\``
-        )
-        .addField(
-          "DESCRIPTION:",
-          command.description
-            ? command.description
-            : "No description for this command."
-        )
-        .addField(
-          "TIMEOUT:",
-          command.timeout
-          ? command.timeout
-          : "No timeout timer for this command."
-        )
+        .addField("COMMAND:", command.name ? `\`${command.name}\`` : "No name for this command.")
+        .addField("ALIASES:", command.aliases ? `\`${command.aliases.join("` `")}\`` : "No aliases for this command.")
+        .addField("USAGE:", + command.usage ? `\`${(await db.get(`Prefix_${message.guild.id}`)) ? await db.get(`Prefix_${message.guild.id}`) : "%"}${command.name} ${command.usage}\`` : `\`${(await db.get(`Prefix_${message.guild.id}`)) ? await db.get(`Prefix_${message.guild.id}`) : "%"}${command.name}\``)
+        .addField("DESCRIPTION:", + command.description ? command.description : "No description for this command.")
+        .addField("TIMEOUT:", + command.timeout ? command.timeout : "No timeout timer for this command.")
+        .addField('Links ','**:link:  [Support Server](https://discord.gg/7JzG54efUS)**')
         .setFooter(`Requested by ${message.author.tag}`,message.author.displayAvatarURL({ dynamic: true }))
         .setTimestamp()
         .setColor(roleColor);

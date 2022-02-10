@@ -24,9 +24,9 @@ module.exports = {
         let embed = new discord.MessageEmbed()
           .setTitle(`Hastebin`)
           .setColor("RANDOM")
-          .setDescription(`Code:\n${Content}\n\n**[Click Here](${src.url})**`)
+          .setDescription(`**Code:**\n${Content}\n\n**[Hastebin Link Here](${src.url})**`)
           .setTimestamp()
-          .setFooter(`code posted by ${message.author.username}`);
+          .setFooter(`Code posted by ${message.author.username}`);
         message.channel.send(embed);
       })
       .catch(e => {

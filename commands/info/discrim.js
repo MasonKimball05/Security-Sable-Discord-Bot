@@ -84,8 +84,8 @@ module.exports = {
       .then(src => {
 
       let embed = new discord.MessageEmbed()
-      .setTitle(`Users with ${dis[0]}`)
-      .setDescription(`${content}\n\n**[Url](${src.url})**`)
+      .setTitle(`Users with discriminator #${dis[0]}`)
+      .setDescription(`${content}\n\n**[List of Users](${src.url})**`)
       .setFooter(`Found ${discrims.length} users`, client.user.displayAvatarURL())
       
       message.channel.send(embed);

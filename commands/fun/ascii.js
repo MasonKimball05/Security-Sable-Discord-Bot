@@ -3,7 +3,7 @@ const figlet = require("figlet");
 
 module.exports = {
     name: "ascii",
-    aliases: [],
+    aliases: ["asci"],
     category: "fun",
     usage: "ascii <text>",
     description: "Returns provided text in ascii format.",
@@ -13,9 +13,9 @@ module.exports = {
    if(!text) {
 return message.channel.send(`Please provide text for the ascii conversion!`)
 }
-   let maxlen = 20
-if(text.length > 20) {
-return message.channel.send(`Please put text that has 20 characters or less because the conversion won't be good!`)
+   let maxlen = 30
+if(text.length > 30) {
+return message.channel.send(`Please put text that has 30 characters or less because the conversion won't be good!`)
 }
  // AGAIN, MAKE SURE TO INSTALL FIGLET PACKAGE!  
 figlet(text, function(err, data) {
