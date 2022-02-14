@@ -13,7 +13,7 @@ module.exports = {
 
        try {
     
-  fetch(`https://api.github.com/users/DarkPhoenixReborn`)
+  fetch(`https://api.github.com/users/ArkanReborn`)
     .then(res => res.json()).then(body => {
       if(body.message) return message.channel.send(`User Not Found! Please contact support`);
     let { login, avatar_url, name, id, html_url, public_repos, followers, following, location, created_at, bio } = body;
@@ -43,8 +43,8 @@ module.exports = {
         .setAuthor(`Party Animals Github Code`)
         .setColor("RED")
         .addField(`Author Username`, `${login}`)
-        .addField(`Link to Bot Author's Github`, `https://github.com/DarkPhoenixReborn`)
-        .addField(`Link to my available code`, `https://github.com/DarkPhoenixReborn/Party-Animals`)
+        .addField(`Link to Bot Author's Github`, `https://github.com/ArkanReborn`)
+        .addField(`Link to my available code`, `https://github.com/ArkanReborn/Party-Animals`)
         .setURL(`https://github.com/DarkPhoenixReborn/Party-Animals`)
         
         message.channel.send(em)
