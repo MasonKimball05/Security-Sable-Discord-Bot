@@ -21,7 +21,7 @@ return message.channel.send(`:x: | **You Don't Have Permission To Use This Comma
                 `${Link}`,
                 `${`${emoji.name}`}`
             ).then(em => message.channel.send(em.toString() + " added!"))
-            .then(em => message.channel.send(`${em.toString} has been added! \nLink to download the emoji [here](${Link})`)).catch(error => {
+            .then(em => message.channel.send(em.toString() + `has been added! \nLink to download the emoji (here)[${Link}]`)).catch(error => {
               message.channel.send(":x: | an Error occured")
                 console.log(error)
 })

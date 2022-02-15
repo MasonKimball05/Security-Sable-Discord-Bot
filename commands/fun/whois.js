@@ -4,7 +4,7 @@ const moment = require("moment")
 module.exports = {
   name: "userinfo",
   category: "fun",
-  aliases: ["whois", "user", "memberinfo"],
+  aliases: ["whois", "user", "memberinfo", "ui"],
   usage: "userinfo <MENTION>",
   description: "Get advanced information of given person or yourself",
   run: async (client, message, args) => { 
@@ -74,7 +74,7 @@ module.exports = {
       //CHECK IF USER HAVE NICKNAME
       if (user.nickname !== null) embed.addField("Nickname", user.nickname)
       embed.addField("Joined At", moment(user.joinedAt).format("LLLL"))
-        .addField("Account Created At", moment(user.user.createdAt).format("LLLL"))
+        .addField("Account Created At", moment(user.user.createdAt).format("LLLL"), true)
         .addField("Common Information", `ID: \`${user.user.id}\`\nDiscriminator: ${user.user.discriminator}\nBot: ${user.user.bot}\nDeleted User: ${user.deleted}`)
         .addField("Badges", newbadges.join(", ").toLowerCase() || "None", true)
         .addField(`Avatar Link`, `[Click Here](${user.user.displayAvatarURL()})`, true)

@@ -13,8 +13,8 @@ module.exports = {
    if(!text) {
 return message.channel.send(`Please provide text for the ascii conversion!`)
 }
-   let maxlen = 30
-if(text.length > 30) {
+   let maxlen = 25
+if(text.length > 25) {
 return message.channel.send(`Please put text that has 30 characters or less because the conversion won't be good!`)
 }
  // AGAIN, MAKE SURE TO INSTALL FIGLET PACKAGE!  

@@ -7,7 +7,7 @@ module.exports = {
     name: "github",
     aliases: ["git"],
     category: "helpful",
-    usage: "Github {optional: PartyAnimalGit}",
+    usage: "Github {optional: SecuritySableGit}",
     description: `Arkan User Account Information!`,
     run: async (client, message, args) => {
 
@@ -17,10 +17,10 @@ module.exports = {
     .then(res => res.json()).then(body => {
       if(body.message) return message.channel.send(`User Not Found! Please contact support`);
     let { login, avatar_url, name, id, html_url, public_repos, followers, following, location, created_at, bio } = body;
-    if (args[0] !== `PartyAnimalGit`) {
+    if (args[0] !== `SecuritySableGit`) {
 
             const embed = new MessageEmbed()
-            .setAuthor(`${login}'s (aka Arkan's) Github Information!`, avatar_url)
+            .setAuthor(`${login}'s Github Information!`, avatar_url)
             .setColor(`#211F1F`)
             .setThumbnail(`${avatar_url}`)
             .addField(`Username`, `${login}`)
@@ -30,14 +30,14 @@ module.exports = {
             .addField(`Followers`, `${followers}`, true)
             .addField(`Following`, `${following}`, true)
             .addField(`Location`, `${location || "No Location"}`)
-            .addField(`Link to ${login}'s Github`, `https://github.com/DarkPhoenixReborn`)
+            .addField(`Link to ${login}'s Github`, `https://github.com/ArkanReborn`)
             .addField(`Account Created`, moment.utc(created_at).format("dddd, MMMM, Do YYYY"))
             .setFooter(`Requested by: ${message.author.username}`)
-            .setURL("https://github.com/DarkPhoenixReborn")
+            .setURL("https://github.com/ArkanReborn")
 
             message.channel.send(embed)
 
-    } else if (args[0] == `PartyAnimalGit`) {
+    } else if (args[0] == `SecuritySableGit`) {
 
         const em = new MessageEmbed()
         .setAuthor(`Party Animals Github Code`)
@@ -45,7 +45,7 @@ module.exports = {
         .addField(`Author Username`, `${login}`)
         .addField(`Link to Bot Author's Github`, `https://github.com/ArkanReborn`)
         .addField(`Link to my available code`, `https://github.com/ArkanReborn/Party-Animals`)
-        .setURL(`https://github.com/DarkPhoenixReborn/Party-Animals`)
+        .setURL(`https://github.com/ArkanReborn/Party-Animals`)
         
         message.channel.send(em)
     }
