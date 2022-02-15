@@ -10,6 +10,7 @@
   "dependencies": {
     "ascii-table": "^0.0.9",
     "common-tags": "^1.8.2",
+    "dateformat": "^3.0.3",
     "discord-buttons": "^4.0.0",
     "discord-giveaways": "^4.4.3",
     "discord.js": "^12.5.3",

@@ -49,7 +49,6 @@ client.giveawaysManager = manager;
 
 const db = require("./db")
 client.on("message", async message => {
-  if (message.author.bot || message.channel.type === "dm") return;
 
   const messageArray = message.content.split(' ');
   const cmd = messageArray[0];
@@ -67,7 +66,19 @@ client.on("message", async message => {
   }
   if (cmd === `Hello`){
     message.reply(`hello!`)
-  }
+  } /*
+  if (cmd === `vent`) {
+    const vent = args.slice(0).join(" ")
+    const chan = `932489232008769546`
+
+    if(!vent) return message.channel.send(`nothing to say?`)
+
+    const embed = new MessageEmbed()
+    .setDescription(vent)
+    .setTimestamp()
+
+    bot.channels.cache.get(chan).send(embed)
+  } */
 })
 /*
 client.on("messageDelete", async (message) => {
@@ -82,4 +93,4 @@ bot.on('clickMenu', menu => {
     Nuggies.dropclick(client, menu);
 });
 */
-client.login(`SECRET`)
+client.login('OTMxNjI2NDU1NDcxODg2Mzg3.YeHKvw.tgX0_6SNWkHVRKspiMuYkm-2dAo')
