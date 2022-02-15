@@ -93,4 +93,4 @@ bot.on('clickMenu', menu => {
     Nuggies.dropclick(client, menu);
 });
 */
-client.login('OTMxNjI2NDU1NDcxODg2Mzg3.YeHKvw.tgX0_6SNWkHVRKspiMuYkm-2dAo')
+client.login('SECRET')
