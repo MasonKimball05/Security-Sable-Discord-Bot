@@ -9,6 +9,12 @@ module.exports = {
     authorPermission: ["MANAGE_EMOJIS"],
  
     run: async (client, message, args) => {
+
+      if (message.channel.type === "dm") {
+        return message.reply(`this command can only be used in a server!`)
+  
+      } else if (message.channel.type !== "dm"){
+
       if (!message.member.hasPermission("MANAGE_EMOJIS")) {
             return message.channel.send(`You Don't Have Permission To Use This Command! Manage Emojis`)
         }
@@ -96,6 +102,6 @@ rmsg.reactions.resolve(reaction.emoji.name).users.remove(message.author.id).catc
        msg.reactions.removeAll();
        return;
      }};
-     
+    }
     }
 }

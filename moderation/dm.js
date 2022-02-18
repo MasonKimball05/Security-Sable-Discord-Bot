@@ -1,14 +1,20 @@
-const { MessageEmbed } = require("discord.js");
+const {
+  MessageEmbed
+} = require("discord.js");
 const config = require("../../config.json")
 const modlog = config.modlog
 
 module.exports = {
-    name: "dm",
-    description: "DM a user in the guild",
-    category: "fun",
-    accessableby: "Moderators",
-    run: async (bot, message, args) => {
-      bot.modlog = `<#${modlog}>`;
+  name: "dm",
+  description: "DM a user in the guild",
+  category: "fun",
+  accessableby: "Moderators",
+  run: async (bot, message, args) => {
+    bot.modlog = `<#${modlog}>`;
+
+    if (message.channel.type === "dm") {
+      return message.channel.send(`This command can only be used in a server!`)
+    } else if (message.channel.type !== "dm") {
 
       if (!message.member.permissions.has("MANAGE_GUILD"))
         return message.reply("You do not have enough permissions!");
@@ -26,13 +32,14 @@ module.exports = {
         .send(args.slice(1).join(" "))
         .catch(() => message.reply("That user could not be DMed!"))
         .then(() => message.reply(`Sent a message to ${user.user.tag}`));
-        const embed = new MessageEmbed()
+      const embed = new MessageEmbed()
         .setTitle("New DM")
         .setDescription(`${message.member} has dm\'d ${user}. **Message**: ${args.slice(1).join(" ")}`)
         .setTimestamp()
         .setColor(user.displayHexColor === '#000000' ? '#ffffff' : user.displayHexColor)
-        message.channel.send(embed);
-        message.guild.channels.cache.get(modlog).send(embed)
-        if(!modlog) return;
-    },
-  };
+      message.channel.send(embed);
+      message.guild.channels.cache.get(modlog).send(embed)
+      if (!modlog) return;
+    }
+  },
+};
