@@ -17,6 +17,11 @@ const dbSchema = mongoose.Schema({
     antiSpam: Boolean,
     badWordList: [String],
     welcomeMessage: [String],
+    gold: [String],
+    silver: [String],
+    bronze: [String],
+    FishingRod: [String],
+    money: [String]
 });
 
 module.exports = mongoose.model("db", dbSchema)
