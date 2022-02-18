@@ -8,12 +8,13 @@ const fs = require("fs");
 const config = require("./config.json");
 const prefix = config.prefix;
 const modlog = config.modlog
+const fetch = require('node-fetch')
 
 client.modlog = `<#${modlog}>`;
 client.prefix = prefix;
 client.commands = new Discord.Collection();
 client.aliases = new Discord.Collection();
-client.snipes = new Discord.Collection();
+const snipes = new Discord.Collection()
 client.events = new Discord.Collection();
 client.categories = fs.readdirSync("./commands/");
 const token = require(`./token.json`);
@@ -33,16 +34,18 @@ client.on("message", async (message) => {
   message.author; //-- User based
   require("./events/guild/message")(client, message);
 });
-const { GiveawaysManager } = require("discord-giveaways");
+const {
+  GiveawaysManager
+} = require("discord-giveaways");
 const manager = new GiveawaysManager(client, {
-    storage: "./handlers/giveaways.json",
-    updateCountdownEvery: 10000,
-    default: {
-        botsCanWin: false,
-        exemptPermissions: ["MANAGE_MESSAGES", "ADMINISTRATOR"],
-        embedColor: "#FF0000",
-        reaction: "🎉"
-    }
+  storage: "./handlers/giveaways.json",
+  updateCountdownEvery: 10000,
+  default: {
+    botsCanWin: false,
+    exemptPermissions: ["MANAGE_MESSAGES", "ADMINISTRATOR"],
+    embedColor: "#FF0000",
+    reaction: "🎉"
+  }
 });
 
 client.giveawaysManager = manager;
@@ -64,26 +67,85 @@ client.on("message", async message => {
   if (cmd === `hi`) {
     message.reply(`hello`)
   }
-  if (cmd === `Hello`){
+  if (cmd === `Hello`) {
     message.reply(`hello!`)
-  } /*
-  if (cmd === `vent`) {
-    const vent = args.slice(0).join(" ")
-    const chan = `932489232008769546`
-
-    if(!vent) return message.channel.send(`nothing to say?`)
-
-    const embed = new MessageEmbed()
-    .setDescription(vent)
-    .setTimestamp()
-
-    bot.channels.cache.get(chan).send(embed)
-  } */
+  }
 })
+
+client.on("message", async (message) => {
+  client.on('messageDelete', message => {
+    if (message.channel.type === "dm") return;
+    if (message.channel.id === `931628582713835531`) return;
+    if (message.channel.id === '932489232008769546') return
+    snipes.set(message.channel.id, message)
+
+    const LogChannel = client.channels.cache.get(modlog)
+    const DeletedLog = new Discord.MessageEmbed()
+      .setTitle("Deleted Message")
+      .addField('Deleted by', `${message.author} - (${message.author.id})`)
+      .addField("In", message.channel)
+      .addField('Content', message.content)
+      .setColor('RED')
+      .setThumbnail(message.author.displayAvatarURL({
+        dynamic: true
+      }))
+    try {
+      return LogChannel.send(DeletedLog)
+    } catch (error) {
+      console.log(' ')
+    }
+  })
+})
+
+client.on("message", async message => {
+  client.on('messageUpdate', async (oldMessage, newMessage) => {
+    if (message.channel.type === "dm") return;
+    if (message.channel.id === '932489232008769546') return
+    if (message.channel.id === `931628582713835531`) return;
+
+    const LogChannel = client.channels.cache.get(modlog)
+    const EditedLog = new Discord.MessageEmbed()
+      .setTitle("Edited Message")
+      .addField('Edited by', `${oldMessage.author} - (${oldMessage.author.id})`)
+      .addField("In", oldMessage.channel)
+      .addField('Old Message', oldMessage.content)
+      .addField('New Message', newMessage.content)
+      .setColor('GREEN')
+      .setThumbnail(oldMessage.author.displayAvatarURL({
+        dynamic: true
+      }))
+    try {
+      return LogChannel.send(EditedLog)
+    } catch (e) {
+      console.log(' ')
+    }
+  })
+});
 /*
-client.on("messageDelete", async (message) => {
-    require("./events/guild/messageDelete")(message, client);
-  });
+client.on("message", async (message) => {
+  let aich = client.channels.cache.get('943307314012778566');
+  let auth = message.author.id
+
+  if (message.channel === aich) {
+    fetch(`https://api.monkedev.com/fun/chat?msg=${message.content}&uid=${auth}`)
+      .then(res => res.json())
+      .then(data => {
+        message.channel.send(data.response)
+      })
+  } else if (message.channel !== aich) return;
+})
+
+/*
+if(message.channel.type === "dm") {
+    const dmEmbed = new Discord.MessageEmbed()
+    .setTitle('New DM')
+    .setColor("RANDOM")
+    .setTimestamp()
+    .setDescription(`**User:** ${message.author.tag}\n**User ID:** ${message.author.id}\n**At:** ${new Date()}\n\n**Content:** \`\`\`${message.content}\`\`\``)
+    
+    const DMC = client.channels.cache.get('933818731421892608')
+    DMC.send(dmEmbed)
+} */
 
 /*
 const Nuggies = require('nuggies');
