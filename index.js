@@ -77,6 +77,7 @@ client.on("message", async (message) => {
     if (message.channel.type === "dm") return;
     if (message.channel.id === `931628582713835531`) return;
     if (message.channel.id === '932489232008769546') return
+    if (message.guild.id !== "931626981047545946") return;
     snipes.set(message.channel.id, message)
 
     const LogChannel = client.channels.cache.get(modlog)
@@ -102,6 +103,7 @@ client.on("message", async message => {
     if (message.channel.type === "dm") return;
     if (message.channel.id === '932489232008769546') return
     if (message.channel.id === `931628582713835531`) return;
+    if (message.guild.id !== "931626981047545946") return;
 
     const LogChannel = client.channels.cache.get(modlog)
     const EditedLog = new Discord.MessageEmbed()
@@ -155,4 +157,4 @@ bot.on('clickMenu', menu => {
     Nuggies.dropclick(client, menu);
 });
 */
-client.login('SECRET')
+client.login("SECRET")
