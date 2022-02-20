@@ -33,6 +33,11 @@ module.exports = {
                     value: "```More fun public commands such as ai chatting and music (maybe)```",
                     inline: true
                 }, {
+                    name: "Version 0.8.0:",
+                    value: "```Open test server to staff members```",
+                    inline: true
+                },
+                 {
                     name: "Version 1.0.0:",
                     value: "```Publicly available on Party Animal Official server(s)```",
                     inline: true

@@ -8,40 +8,44 @@ module.exports = {
     name: 'give-role',
     description: "gives roles to people",
     category: "moderation",
+    aliases: ["addrole"],
     accessableby: "Moderators",
     run: async (bot, message, args) => {
-
         bot.modlog = `<#${modlog}>`;
 
+        if (message.channel.type === "dm") {
+            return message.channel.send(`This command can only be used in a server!`)
+        } else if (message.channel.type !== "dm") {
 
-        if (!message.member.hasPermission('MANAGE_ROLES')) return message.channel.send(`You do not have MANAGE_ROLES permission`)
+            if (!message.member.hasPermission('MANAGE_ROLES')) return message.channel.send(`You do not have MANAGE_ROLES permission`)
 
-        if (!args[0] || !args[1]) return message.channel.send("Incorrect usage, It's `<username || user id> <role name || id>")
+            if (!args[0] || !args[1]) return message.channel.send("Incorrect usage, It's `<username || user id> <role name || id>")
 
-        try {
+            try {
 
-            const member = message.mentions.members.first() || message.guild.members.cache.get(args[0]);
-            const roleName = message.guild.roles.cache.find(r => (r.name === args[1].toString()) || (r.id === args[1].toString().replace(/[^\w\s]/gi, '')));
+                const member = message.mentions.members.first() || message.guild.members.cache.get(args[0]);
+                const roleName = message.guild.roles.cache.find(r => (r.name === args[1].toString()) || (r.id === args[1].toString().replace(/[^\w\s]/gi, '')));
 
-            const alreadyHasRole = member._roles.includes(roleName.id);
+                const alreadyHasRole = member._roles.includes(roleName.id);
 
-            if (alreadyHasRole) return message.channel.send(`${member} already has that role`)
+                if (alreadyHasRole) return message.channel.send(`${member} already has that role`)
 
-            const embed = new MessageEmbed()
-                .setTitle(`Role Name: ${roleName.name}`)
-                .setDescription(`${message.author} has successfully given the role ${roleName} to ${member.user}`)
-                .setColor('f3f3f3')
-                .setThumbnail(member.user.displayAvatarURL({
-                    dynamic: true
-                }))
-                .setFooter(new Date().toLocaleString())
+                const embed = new MessageEmbed()
+                    .setTitle(`Role Name: ${roleName.name}`)
+                    .setDescription(`${message.author} has successfully given the role ${roleName} to ${member.user}`)
+                    .setColor('f3f3f3')
+                    .setThumbnail(member.user.displayAvatarURL({
+                        dynamic: true
+                    }))
+                    .setFooter(new Date().toLocaleString())
 
-            if (!modlog) return message.channel.send(embed)
-            message.reply(`${member} has successfully gained the role ${roleName}`)
-            return member.roles.add(roleName).then(() => message.guild.channels.cache.get(modlog).send(embed));
+                if (!modlog) return message.channel.send(embed)
+                message.reply(`${member} has successfully gained the role ${roleName}`)
+                return member.roles.add(roleName).then(() => message.guild.channels.cache.get(modlog).send(embed));
 
-        } catch (e) {
-            return message.channel.send('Try to give a role that exists next time...').then(() => console.log(e))
+            } catch (e) {
+                return message.channel.send('Try to give a role that exists next time...').then(() => console.log(e))
+            }
         }
     }
 }

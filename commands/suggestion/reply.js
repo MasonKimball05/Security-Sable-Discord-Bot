@@ -52,9 +52,7 @@ module.exports = {
       if(!suggestionChannel) return message.channel.send(noChannel)
       
       const suggestedEmbed = await suggestionChannel.messages.fetch(messageID).catch(error => {
-    const noMessage = new MessageEmbed()
-      .setDescription(`❌ | Didn't find any Message with that ID!`)
-      .setColor("FF2052")
+
   return message.channel.send(noMessage);
   })
      

@@ -1,6 +1,7 @@
 const {
     MessageEmbed
 } = require('discord.js');
+const dateformat = require('dateformat')
 
 module.exports = {
     name: "server-info",
@@ -10,96 +11,68 @@ module.exports = {
     aliases: ["serverinfo", "si"],
 
     run: async (bot, message, args) => {
-        let region;
-        switch (message.guild.region) {
-            case "europe":
-                region = '🇪🇺 Europe';
-                break;
-            case "us-east":
-                region = '🇺🇸 us-east'
-                break;
-            case "us-west":
-                region = '🇺🇸 us-west';
-                break;
-            case "us-south":
-                region = '🇺🇸 us-south'
-                break;
-            case "us-central":
-                region = '🇺🇸 us-central'
-                break;
-            case "singapore":
-                region = '🇸🇬 singapore'
-                break;
-            case "brazil":
-                region = '🇧🇷 brazil'
-                break;
-            case "hong-kong":
-                region = '🇭🇰 hong-kong'
-                break;
-            case "india":
-                region = '🇮🇳 india'
-                break;
-            case "japan":
-                region = '🇯🇵 japan'
-                break;
-            case "russia":
-                region = '🇷🇺 russia'
-                break;
-            case "south-africa":
-                region = '🇿🇦 south-africa'
-                break;
-            case "sydney":
-                region = '🇦🇺 sydney'
 
+        if (message.channel.type === "dm") {
+            return message.channel.send(`This command can only be used in a server!`)
+        } else if (message.channel.type !== "dm") {
+
+
+            let icon = message.guild.iconURL({
+                size: 2048
+            }); // Server Avatar
+
+            let region = {
+                "brazil": "Brazil",
+                "eu-central": "Central Europe",
+                "singapore": "Singapore",
+                "london": "London",
+                "russia": "Russia",
+                "japan": "Japan",
+                "hongkong": "Hongkong",
+                "sydney": "Sydney",
+                "us-central": "U.S. Central",
+                "us-east": "U.S. East",
+                "us-south": "U.S. South",
+                "us-west": "U.S. West",
+                "eu-west": "Western Europe"
+            }
+
+            // Members
+            let member = message.guild.members;
+            let offline = member.cache.filter(m => m.user.presence.status === "offline").size,
+                online = member.cache.filter(m => m.user.presence.status === "online").size,
+                idle = member.cache.filter(m => m.user.presence.status === "idle").size,
+                dnd = member.cache.filter(m => m.user.presence.status === "dnd").size,
+                robot = member.cache.filter(m => m.user.bot).size,
+                total = message.guild.memberCount;
+
+            // Channels
+            let channels = message.guild.channels;
+            let text = channels.cache.filter(r => r.type === "text").size,
+                vc = channels.cache.filter(r => r.type === "voice").size,
+                category = channels.cache.filter(r => r.type === "category").size,
+                totalchan = channels.cache.size;
+
+            // Region
+            let location = region[message.guild.region];
+
+            // Date
+            let x = Date.now() - message.guild.createdAt;
+            let h = Math.floor(x / 86400000) // 86400000, 5 digits-zero.
+            let created = dateformat(message.guild.createdAt); // Install "dateformat" first.
+
+            const embed = new Discord.MessageEmbed()
+                .setColor(0x7289DA)
+                .setTimestamp(new Date())
+                .setThumbnail(icon)
+                .setAuthor(message.guild.name, icon)
+                .setDescription(`**ID:** ${message.guild.id}`)
+                .addField("Region", location)
+                .addField("Date Created", `${created} \nsince **${h}** day(s)`)
+                .addField("Owner", `**${message.guild.owner.user.tag}** \n\`${message.guild.owner.user.id}\``)
+                .addField(`Members [${total}]`, `Online: ${online} \nIdle: ${idle} \nDND: ${dnd} \nOffline: ${offline} \nBots: ${robot}`)
+                .addField(`Channels [${totalchan}]`, `Text: ${text} \nVoice: ${vc} \nCategory: ${category}`)
+            message.channel.send(embed); // Let's see if it's working!
         }
-
-        const embed = new MessageEmbed()
-            .setThumbnail(message.guild.iconURL({
-                dynamic: true
-            }))
-            .setColor('#f3f3f3')
-            .setTitle(`${message.guild.name} server stats`)
-            .addFields({
-                name: "Owner: ",
-                value: message.guild.owner.user.tag,
-                inline: true
-            }, {
-                name: "Members: ",
-                value: `There are ${message.guild.memberCount} users!`,
-                inline: true
-            }, {
-                name: "Members Online: ",
-                value: `There are ${message.guild.members.cache.filter(m => m.user.presence.status == "online" || "idle" || "dnd").size} users online!`,
-                inline: true
-            }, {
-                name: "Total Bots: ",
-                value: `There are ${message.guild.members.cache.filter(m => m.user.bot).size} bot(s)!`,
-                inline: true
-            }, {
-                name: "Creation Date: ",
-                value: message.guild.createdAt.toLocaleDateString("en-us"),
-                inline: true
-            }, {
-                name: "Roles Count: ",
-                value: `There are ${message.guild.roles.cache.size} roles in this server.`,
-                inline: true,
-            }, {
-                name: `🗺 Region: `,
-                value: region,
-                inline: true
-            }, {
-                name: `Verified: `,
-                value: message.guild.verified ? 'Server is verified' : `Server isn't verified`,
-                inline: true
-            }, {
-                name: 'Boosters: ',
-                value: message.guild.premiumSubscriptionCount >= 1 ? `There are ${message.guild.premiumSubscriptionCount} Boosters` : `There are no boosters`,
-                inline: true
-            }, {
-                name: "Emojis: ",
-                value: message.guild.emojis.cache.size >= 1 ? `There are ${message.guild.emojis.cache.size} emojis!` : 'There are no emojis',
-                inline: true
-            })
-        await message.channel.send(embed)
     }
 }

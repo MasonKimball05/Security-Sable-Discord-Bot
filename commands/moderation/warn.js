@@ -18,83 +18,113 @@ module.exports = {
   category: "moderation",
   usage: "<User mention> <Reason>",
   run: async (bot, message, args) => {
-    if (!message.member.hasPermission('MANAGE_GUILD')) return;
-    bot.modlog = `<#${modlog}>`;
 
-    let user = message.mentions.users.first();
-    if (!user) return message.channel.send(`You did not mention a user!`);
-    if (user == message.author) return message.reply(`you cannot warn yourself!`)
-    if (!args.slice(1).join(" "))
-      return message.channel.send(`You did not specify a reason!`);
-    warns.findOne(
-      { Guild: message.guild.id, User: user.id },
-      async (err, data) => {
-        if (err) console.log(err);
-        if (!data) {
-          let newWarns = new warns({
-            User: user.id,
-            Guild: message.guild.id,
-            Warns: [
-              {
+    if (message.channel.type === "dm") {
+      return message.channel.send(`This command can only be used in a server!`)
+    } else if (message.channel.type !== "dm") {
+
+      if (!message.member.hasPermission('MANAGE_GUILD')) return;
+      if (message.deletable) message.delete();
+      if (message.partial) await message.fetch();
+      bot.modlog = `<#${modlog}>`;
+
+      let user = message.mentions.users.first();
+      if (!user) return message.channel.send(`You did not mention a user!`);
+      if (user == message.author) return message.reply(`you cannot warn yourself!`)
+      if (!args.slice(1).join(" "))
+        return message.channel.send(`You did not specify a reason!`);
+      warns.findOne({
+          Guild: message.guild.id,
+          User: user.id
+        },
+        async (err, data) => {
+          if (err) console.log(err);
+          if (!data) {
+            let newWarns = new warns({
+              User: user.id,
+              Guild: message.guild.id,
+              Warns: [{
                 Moderator: message.author.id,
                 Reason: args.slice(1).join(" "),
-              },
-            ],
-          });
-          newWarns.save();
-          message.guild.channels.cache.get(modlog).send(
-            `${user.tag} has been warned with the reason of ${args
+              }, ],
+            });
+            newWarns.save();
+            message.guild.channels.cache.get(modlog).send(
+              `${user.tag} has been warned with the reason of ${args
               .slice(1)
               .join(" ")}. They now have 1 warn.`
-          );
-          if (!modlog) return message.channel.send(
-            `${user.tag} has been warned with the reason of ${args
+            );
+            if (!modlog) return message.channel.send(
+              `${user.tag} has been warned with the reason of ${args
             .slice(1)
             .join(" ")}. They now have 1 warn.`);
-        } else {
-          data.Warns.unshift({
-            Moderator: message.author.id,
-            Reason: args.slice(1).join(" "),
-          });
-          data.save();
-          message.guild.channels.cache.get(modlog).send(
-            `${user.tag} has been warned with the reason of ${args
+          } else {
+            data.Warns.unshift({
+              Moderator: message.author.id,
+              Reason: args.slice(1).join(" "),
+            });
+            data.save();
+            message.guild.channels.cache.get(modlog).send(
+              `${user.tag} has been warned with the reason of ${args
               .slice(1)
               .join(" ")}. They know have ${data.Warns.length} warns.`
-          );
-          if (data.Warns.length >= 3) {
+            );
+            if (!modlog) return message.channel.send(
+              `${user.tag} has been warned with the reason of ${args.slice(1).join(" ")}. They know have ${data.Warns.length} warns.`);
 
-            const kicked = new MessageEmbed()
-            .setColor("#ff0000")
-            .setThumbnail(user.user.displayAvatarURL())
-            .setFooter(message.member.displayName, message.author.displayAvatarURL())
-            .setTimestamp()
-            .setDescription(stripIndents `**- Kicked member:** ${user} (${user.id})
+            if (data.Warns.length >= 3) {
+
+              const kicked = new MessageEmbed()
+                .setColor("#ff0000")
+                .setThumbnail(user.user.displayAvatarURL())
+                .setFooter(message.member.displayName, message.author.displayAvatarURL())
+                .setTimestamp()
+                .setDescription(stripIndents `**- Kicked member:** ${user} (${user.id})
             **- Kicked by:** ${message.member} (${message.member.id})
             **- Reason:** they had 3+ warns \nReason for last warn ${args.slice(1).join(" ")}`);
 
-            const promptEmbed = new MessageEmbed()
-            .setAuthor("This Verification Becomes Invalid After 30s")
-            .setColor("GREEN")
-            .setDescription(`${user.tag} has 3 warnings would you like for me to kick them?`)
+              const no = new MessageEmbed()
+                .setColor("RED")
+                .setTimestamp()
+                .setThumbnail(toKick.user.displayAvatarURL())
+                .setFooter(message.member.displayName, message.author.displayAvatarURL())
+                .setDescription(stripIndents `**- Kick Canceled:** ${toKick} (${toKick.id})
+            **- Canceled by:** ${message.member} (${message.member.id})
+            **- Initial kick reason:** ${args.slice(1).join(" ")}`);
 
-            await message.channel.send(promptEmbed).then(async msg => {
-              const emoji = await promptMessage(msg, message.author, 30, ["✅", "❌"]);
+              const promptEmbed = new MessageEmbed()
+                .setAuthor("This Verification Becomes Invalid After 30s")
+                .setColor("GREEN")
+                .setDescription(`${user.tag} has 3 warnings would you like for me to kick them?`)
 
-              if (emoji === "✅") {
-                msg.delete();
+              await message.channel.send(promptEmbed).then(async msg => {
+                const emoji = await promptMessage(msg, message.author, 30, ["✅", "❌"]);
 
-                user.kick
+                if (emoji === "✅") {
+                  msg.delete();
+
+                  user.kick(args.slice(1).join(" "))
+                    .catch(err => {
+                      if (err) return message.guild.channels.cache.get(modlog).send(`Well... the kick didn't work out. Here's the error ${err}`)
+                      console.log(err)
+                      if (!modlog) return message.reply(`Well... the kick didn't work out. Here's the error ${err}`)
+                    });
+
+                  message.guild.channels.cache.get(modlog).send(kicked);
+                  user.send(`you have been kicked from ${message.guild.name} \n\nReason: ${args.slice(1).join(" ")}`)
+                }
+                if (emoji === "❌") {
+                  msg.delete()
+                    .then(() => {
+                      message.guild.channels.cache.get(modlog).send(no);
+                      if (!modlog) return message.channel.send(no);
+                    })
+                }
+              })
             }
-            })
           }
-          if (!modlog) return message.channel.send(
-            `${user.tag} has been warned with the reason of ${args
-              .slice(1)
-              .join(" ")}. They know have ${data.Warns.length} warns.`
-          );
         }
-      }
-    );
+      );
+    }
   },
 };

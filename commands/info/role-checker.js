@@ -8,6 +8,11 @@ module.exports = {
     accessableby: "Members",
     run: async (bot, message, args) => {
         // code starts here
+
+        if (message.channel.type === "dm") {
+            return message.channel.send(`This command can only be used in a server!`)
+        } else if (message.channel.type !== "dm") {
+
         try {
             const roleName = message.guild.roles.cache.find(r => (r.name === args.toString()) || (r.id === args.toString()))
             console.log(roleName)
@@ -43,6 +48,6 @@ module.exports = {
         } catch (e) {
             return message.channel.send('Role Doesn\'t Exist').then(() => console.log(e))
         }
-
+    }
     }
 }

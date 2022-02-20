@@ -8,6 +8,10 @@ module.exports = {
         aliases: ["discrim"],
   run: async (client, message, args) => {
     
+    if (message.channel.type === "dm") {
+      return message.channel.send(`This command can only be used in a server!`)
+  } else if (message.channel.type !== "dm") {
+
     let men = message.mentions.users.first();
     
     let discrims;
@@ -93,6 +97,6 @@ module.exports = {
   .catch(e => {
          message.channel.send(`Error, try again later`)
    });
-      
+  }
   }
 }

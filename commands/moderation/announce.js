@@ -20,6 +20,10 @@ module.exports = {
   run: async (bot, message, args) => {
     bot.modlog = `<#${modlog}>`;
 
+    if (message.channel.type === "dm") {
+      return message.channel.send(`This command can only be used in a server!`)
+  } else if (message.channel.type !== "dm") {
+
     if (message.author.id !== '569681110360129536') {
       return message.reply("You're not the bot the owner!")
     }
@@ -79,6 +83,7 @@ module.exports = {
           console.log(e)
         }
       }
+    }
     }
   }
 }
