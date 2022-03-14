@@ -1,10 +1,11 @@
 {
     "prefix": "%",
-    "version": "0.7.2",
+    "version": "0.7.4",
     "modlog": "932489232008769546",
-    "ownerid": "569681110360129536",
+    "ownerId": "569681110360129536",
     "suggest": "938208617402867732",
     "bugr": "937913415018635284",
     "ticketCategory": "937761941001211925",
-    "updateschnl": "938123762405085214"
-  }
+    "updateschnl": "938123762405085214",
+    "mongoToken": "mongodb+srv://Revan:Masonkof4!@giveaways.lu9wt.mongodb.net/test"
+}

@@ -15,8 +15,9 @@ module.exports = bot => {
     .setColor("GREEN")
     .setTimestamp()
 
-  bot.user.setActivity(`Updated to v${version}`)
-  bot.channels.cache.get('931628582713835531').send(`I am online at v${version}!`)
+  //bot.user.setActivity(`Online at v${version}, listening for %help`, { type: "LISTENING" })
+  bot.user.setActivity(`${bot.users.cache.size} users`, { type: "LISTENING" })
+  bot.channels.cache.get('931628582713835531').send(`I am online \nVersion: **${version}**\nPrefix: **%** `)
   //bot.channels.cache.get(upd).send(embed)
   if (!'931628582713835531') return;
 }
