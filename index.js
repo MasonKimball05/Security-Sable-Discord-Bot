@@ -72,6 +72,7 @@ client.on("message", async message => {
   }
 })
 
+/*
 client.on("message", async (message) => {
   client.on('messageDelete', message => {
     if (message.channel.type === "dm") return;
@@ -122,7 +123,7 @@ client.on("message", async message => {
       console.log(' ')
     }
   })
-});
+}); 
 /*
 client.on("message", async (message) => {
   let aich = client.channels.cache.get('943307314012778566');
@@ -149,12 +150,4 @@ if(message.channel.type === "dm") {
     DMC.send(dmEmbed)
 } */
 
-/*
-const Nuggies = require('nuggies');
-Nuggies.handleInteractions(client)
-require('discord-buttons')(client);
-bot.on('clickMenu', menu => {
-    Nuggies.dropclick(client, menu);
-});
-*/
 client.login("SECRET")
