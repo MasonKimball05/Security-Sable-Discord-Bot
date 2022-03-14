@@ -1,8 +1,15 @@
 const {
     MessageEmbed
 } = require("discord.js");
-const db = require("quick.db");
+const mongoose = require("mongoose")
+const Data = require("../../models/economy")
+const config = require("../../config.json")
 const ms = require("parse-ms");
+
+mongoose.connect(config.mongoToken, {
+    useNewUrlParser: true,
+    useUnifiedTopology: true,
+})
 
 module.exports = {
     name: "daily",
@@ -14,29 +21,39 @@ module.exports = {
     //name: daily
     run: async (bot, message, args) => {
 
-        let user = message.author;
+        const user = message.author;
 
-        let timeout = 86400000
-        let amount = 100;
+        Data.findOne({
+            userID: user.id
+        }, (err, data) => {
+            if (!data) {
+                const WarninEmbed = new MessageEmbed()
+                    .setColor('#D62828')
+                    .setDescription(`${user} has not started yet`)
+                message.channel.send(WarninEmbed)
+                return;
+            }
 
-        let daily = await db.fetch(`daily_${user.id}`);
+            if (Math.floor(86400000 - (new Date().getTime() - data.daily) > 0)) { // Millisec
+                let time = ms(86400000 - (new Date().getTime() - data.daily));
 
-        if (daily !== null && timeout - (Date.now() - daily) > 0) {
-            let time = ms(timeout - (Date.now() - daily));
+                const WarningEmbed = new MessageEmbed()
+                    .setColor("#89023E")
+                    .setDescription(`**${data.name}**, you can claim again in **${time.hours}h, ${time.minutes}m, and ${time.seconds}s**`);
+                message.channel.send(WarningEmbed);
+                return;
+            }
+            data.wallet += 100
 
-            let timeEmbed = new MessageEmbed()
+            data.daily = new Date().getTime();
+            data.save().catch(err => console.log(err));
+
+            const moneyEmbed = new MessageEmbed()
                 .setColor("GREEN")
-                .setDescription(`❌ You've already collected your daily reward\n\nCollect it again in ${time.hours}h ${time.minutes}m ${time.seconds}s `);
-            message.channel.send(timeEmbed)
-        } else {
-            let moneyEmbed = new MessageEmbed()
-                .setColor("GREEN")
-                .setDescription(`✅ You've collected your daily reward of ${amount} coins`);
+                .setAuthor("Daily Rewards", message.author.displayAvatarURL())
+                .setDescription(`✅ You've collected your daily reward of 100 coins`);
             message.channel.send(moneyEmbed)
-            db.add(`money_${user.id}`, amount)
-            db.set(`daily_${user.id}`, Date.now())
-
-
-        }
+            return;
+        })
     }
 }

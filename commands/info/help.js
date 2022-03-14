@@ -66,7 +66,7 @@ if (message.channel.type === "dm") {
     .setColor(roleColor);
   return message.channel.send(embed);
 } else {
-  const command =bot.commands.get(args[0].toLowerCase()) || bot.commands.find((c) => c.aliases && c.aliases.includes(args[0].toLowerCase()));
+  const command = bot.commands.get(args[0].toLowerCase()) || bot.commands.find((c) => c.aliases && c.aliases.includes(args[0].toLowerCase()));
 
   if (!command) {
     const embed = new MessageEmbed()
@@ -84,7 +84,7 @@ if (message.channel.type === "dm") {
     .addField("DESCRIPTION:", + command.description ? command.description : "No description for this command.")
     .addField("TIMEOUT:", + command.timeout ? command.timeout : "No timeout timer for this command.")
     .addField('Links ','**:link:  [Support Server](https://discord.gg/7JzG54efUS)**')
-    .setFooter(`Requested by ${message.author.tag}`,message.author.displayAvatarURL({ dynamic: true }))
+    .setFooter(`Requested by ${message.author.tag}`, `Note: Some commands are unavailable in dm message channels!`, message.author.displayAvatarURL({ dynamic: true }))
     .setTimestamp()
     .setColor(roleColor);
   return message.channel.send(embed);
@@ -149,7 +149,7 @@ if (message.channel.type === "dm") {
         .setColor(roleColor);
       return message.channel.send(embed);
     } else {
-      const command =bot.commands.get(args[0].toLowerCase()) || bot.commands.find((c) => c.aliases && c.aliases.includes(args[0].toLowerCase()));
+      const command = bot.commands.get(args[0].toLowerCase()) || bot.commands.find((c) => c.aliases && c.aliases.includes(args[0].toLowerCase()));
 
       if (!command) {
         const embed = new MessageEmbed()

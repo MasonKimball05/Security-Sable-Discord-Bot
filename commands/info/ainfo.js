@@ -4,7 +4,7 @@ name: "ainfo",
 description: "`Show detailed stats of bot`",
 category: "info",
 aliases: ["detail"],
-run: async (client, message, args, level) => {
+run: async (client, message, args) => {
 //command
 
 let servers_count = message.client.guilds.cache.size;

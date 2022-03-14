@@ -7,17 +7,19 @@ module.exports = {
     name: "github",
     aliases: ["git"],
     category: "helpful",
-    usage: "Github {optional: SecuritySableGit}",
+    usage: "Github (SecuritySableGit)",
     description: `Arkan User Account Information!`,
     run: async (client, message, args) => {
 
        try {
     
+        let toggle = ["SecuritySableGit", "securitysablegit"];
+
   fetch(`https://api.github.com/users/ArkanReborn`)
     .then(res => res.json()).then(body => {
       if(body.message) return message.channel.send(`User Not Found! Please contact support`);
     let { login, avatar_url, name, id, html_url, public_repos, followers, following, location, created_at, bio } = body;
-    if (args[0] !== `SecuritySableGit`) {
+    if (!toggle.includes(args[0])) {
 
             const embed = new MessageEmbed()
             .setAuthor(`${login}'s Github Information!`, avatar_url)
@@ -37,7 +39,7 @@ module.exports = {
 
             message.channel.send(embed)
 
-    } else if (args[0] == `SecuritySableGit`) {
+    } else if (toggle.includes(args[0])) {
 
         const em = new MessageEmbed()
         .setAuthor(`Party Animals Github Code`)

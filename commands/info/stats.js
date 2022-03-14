@@ -7,14 +7,15 @@ const { version: discordjsVersion } = require('discord.js');
 module.exports = {
   name: "stats",
   category: "info",
-    aliases: ['botstats'],
-    description: 'Check\'s bot\'s status',
+  aliases: ['botstats'],
+  description: 'Check\'s bot\'s status',
+  timeout: 30000,
   run: async (client, message, args, del, member) => {
    message.delete();
    client.version = version;
 
       message.channel.send(new Discord.MessageEmbed()
-            .setColor('RANDOM')
+            .setColor('BLUE')
             .setTitle(`Bot Version: v${version}`)
             .setThumbnail(client.user.displayAvatarURL({ dynamic: true }))
             .addField('Uptime', `${ms(client.uptime)}`, true)

@@ -1,7 +1,14 @@
 const {
     MessageEmbed
 } = require("discord.js");
-const db = require("quick.db");
+const mongoose = require("mongoose")
+const Data = require("../../models/economy")
+const config = require("../../config.json")
+
+mongoose.connect(config.mongoToken, {
+    useNewUrlParser: true,
+    useUnifiedTopology: true,
+})
 
 module.exports = {
     name: "balance",
@@ -14,7 +21,7 @@ module.exports = {
     //name: balance
     run: async (bot, message, args) => {
 
-        let user =
+        const user =
             message.mentions.members.first() ||
             message.guild.members.cache.get(args[0]) ||
             message.guild.members.cache.find(
@@ -26,21 +33,32 @@ module.exports = {
             ) ||
             message.member;
 
-        let bal = db.fetch(`money_${user.id}`);
-
-        if (bal === null) bal = 0;
-
-        let bank = await db.fetch(`bank_${user.id}`);
-
-        if (bank === null) bank = 0;
-        let Total = bal + bank
         if (user) {
-            let moneyEmbed = new MessageEmbed()
-                .setColor("BLUE")
-                .setDescription(`**${user.user.username}'s Balance**\n**Cash:** $${bal}\n**Bank:** $${bank}\n**Total:** $${Total}`);
-            message.channel.send(moneyEmbed);
-        } else {
-            return message.channel.send("**Enter A Valid User!**");
+            Data.findOne({
+                userID: user.id
+            }, (err, data) => {
+                if (!data) {
+
+                    const warnEmb = new MessageEmbed()
+                        .setColor("RED")
+                        .setDescription(`${user.tag} has not started yet!`)
+                        .setTimestamp()
+                    message.channel.send(warnEmb)
+                    return;
+                }
+
+                if (data.bank === null) bank = "0"
+                if (data.wallet === null) wallet = "0"
+                let net = Math.floor(data.wallet + data.bank)
+                const succ = new MessageEmbed()
+                    .setColor("GREEN")
+                    .setDescription()
+                    .setAuthor(`${Data.name}'s balance!`)
+                    .setDescription(`Net Worth: ${net}\nWallet Balance: **${data.wallet}** \nBank Balance: **${data.bank}**`)
+
+                message.channel.send(succ)
+                return;
+            })
         }
     }
 };

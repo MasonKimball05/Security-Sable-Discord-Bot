@@ -5,7 +5,7 @@ module.exports = {
   name: "hastebin",
   usage: `haste <code/text>`,
   category: "utility",
-  args: true,
+  description: "Allows you to create a hastebin for code or text",
   aliases: ["haste"],
   run: async (client, message, args) => {
     message.delete();

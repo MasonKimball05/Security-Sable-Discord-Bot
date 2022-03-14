@@ -1,5 +1,6 @@
 const {
-    MessageEmbed
+    MessageEmbed,
+    Discord
 } = require('discord.js');
 const dateformat = require('dateformat')
 
@@ -21,20 +22,47 @@ module.exports = {
                 size: 2048
             }); // Server Avatar
 
-            let region = {
-                "brazil": "Brazil",
-                "eu-central": "Central Europe",
-                "singapore": "Singapore",
-                "london": "London",
-                "russia": "Russia",
-                "japan": "Japan",
-                "hongkong": "Hongkong",
-                "sydney": "Sydney",
-                "us-central": "U.S. Central",
-                "us-east": "U.S. East",
-                "us-south": "U.S. South",
-                "us-west": "U.S. West",
-                "eu-west": "Western Europe"
+            let region;
+            switch (message.guild.region) {
+                case "europe":
+                    region = '🇪🇺 Europe';
+                    break;
+                case "us-east":
+                    region = '🇺🇸 us-east'
+                    break;
+                case "us-west":
+                    region = '🇺🇸 us-west';
+                    break;
+                case "us-south":
+                    region = '🇺🇸 us-south'
+                    break;
+                case "us-central":
+                    region = '🇺🇸 us-central'
+                    break;
+                case "singapore":
+                    region = '🇸🇬 singapore'
+                    break;
+                case "brazil":
+                    region = '🇧🇷 brazil'
+                    break;
+                case "hong-kong":
+                    region = '🇭🇰 hong-kong'
+                    break;
+                case "india":
+                    region = '🇮🇳 india'
+                    break;
+                case "japan":
+                    region = '🇯🇵 japan'
+                    break;
+                case "russia":
+                    region = '🇷🇺 russia'
+                    break;
+                case "south-africa":
+                    region = '🇿🇦 south-africa'
+                    break;
+                case "sydney":
+                    region = '🇦🇺 sydney'
+                    break;
             }
 
             // Members
@@ -52,27 +80,31 @@ module.exports = {
                 vc = channels.cache.filter(r => r.type === "voice").size,
                 category = channels.cache.filter(r => r.type === "category").size,
                 totalchan = channels.cache.size;
-
+            let totalchann = Math.floor(totalchan - category)
             // Region
-            let location = region[message.guild.region];
+            //let location = region[message.guild.region];
 
             // Date
             let x = Date.now() - message.guild.createdAt;
             let h = Math.floor(x / 86400000) // 86400000, 5 digits-zero.
             let created = dateformat(message.guild.createdAt); // Install "dateformat" first.
 
-            const embed = new Discord.MessageEmbed()
+            const embed = new MessageEmbed()
                 .setColor(0x7289DA)
                 .setTimestamp(new Date())
-                .setThumbnail(icon)
+                //.setThumbnail(icon)
                 .setAuthor(message.guild.name, icon)
                 .setDescription(`**ID:** ${message.guild.id}`)
-                .addField("Region", location)
-                .addField("Date Created", `${created} \nsince **${h}** day(s)`)
+                //.addField("Region 🗺", region)
+                .addField("Date Created", `${created} \n\Created **${h}** day(s) ago`)
                 .addField("Owner", `**${message.guild.owner.user.tag}** \n\`${message.guild.owner.user.id}\``)
                 .addField(`Members [${total}]`, `Online: ${online} \nIdle: ${idle} \nDND: ${dnd} \nOffline: ${offline} \nBots: ${robot}`)
-                .addField(`Channels [${totalchan}]`, `Text: ${text} \nVoice: ${vc} \nCategory: ${category}`)
-            message.channel.send(embed); // Let's see if it's working!
+                .addField(`Channels [${totalchann}]`, `Text: ${text} \nVoice: ${vc} \nCategories: ${category}`)
+                .setThumbnail(message.guild.iconURL({
+                    dynamic: true,
+                    format: "png"
+                }))
+            message.channel.send(embed);
         }
     }
 }

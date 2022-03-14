@@ -24,10 +24,14 @@ module.exports = {
                     value: "```More fun community commands and plans to update the bot to be online almost 24/7```",
                     inline: true
                 }, {
-                    name: "In progress of being completed - Version 0.6.0:",
+                    name: "❌ Canceled - Version 0.6.0:",
                     value: "```More non prefix response commands```",
                     inline: true
-                },
+                }, {
+                    name: "✅ Complete - Version 0.6.5:",
+                    value: "```Private Vent Command (Only useable in dms)```",
+                    inline: true
+                }
                 /*
                            {
                                name: "✅ Complete - Version 0.7.5:",

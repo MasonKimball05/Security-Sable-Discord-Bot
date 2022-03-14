@@ -5,7 +5,7 @@ module.exports = {
     name: "findemoji",
     aliases: ["finde", "fe"],
     category: "utility",
-    description: "Steals Emoji from Other Servers to ur Server.",
+    description: "Takes emojis from other servers and adds them to your server.",
     authorPermission: ["MANAGE_EMOJIS"],
  
     run: async (client, message, args) => {
