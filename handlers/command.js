@@ -3,13 +3,13 @@ const discord = require("discord.js")
 const ascii = require("ascii-table");
 const message = require("../events/guild/message");
 const config = require("../config.json")
-const modlog = config.modlog
+const tsmodlog = config.tsmodlog
 
 let table = new ascii("Commands");
 table.setHeading("Command", "Load status");
 
 module.exports = (bot) => {
-    bot.modlog = `<#${modlog}>`;
+    bot.tsmodlog = `<#${tsmodlog}>`;
     readdirSync("./commands/").forEach(dir => {
         const commands = readdirSync(`./commands/${dir}/`).filter(file => file.endsWith(".js"));
 

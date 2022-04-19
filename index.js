@@ -9,7 +9,6 @@ const config = require("./config.json");
 const prefix = config.prefix;
 const modlog = config.modlog
 const fetch = require('node-fetch')
-
 client.modlog = `<#${modlog}>`;
 client.prefix = prefix;
 client.commands = new Discord.Collection();
@@ -18,6 +17,8 @@ const snipes = new Discord.Collection()
 client.events = new Discord.Collection();
 client.categories = fs.readdirSync("./commands/");
 const token = require(`./token.json`);
+const BotToken = token.BotToken
+client.BotToken = BotToken;
 const message = require("./events/guild/message");
 mongoose.connect(token.Mongo, {
   useUnifiedTopology: true,
@@ -60,94 +61,20 @@ client.on("message", async message => {
     if (!message.member.permissions.has("MANAGE_GUILD")) return message.channel.send(`${message.author} you lack the permissions for this command!`);
     await db.set(`Prefix_${message.guild.id}`, '%');
     message.channel.send(`The prefix for ${message.guild.id} been reset to % `);
-  }
-  if (cmd === `hello`) {
-    message.reply(`hello!`)
-  }
-  if (cmd === `hi`) {
-    message.reply(`hello`)
-  }
-  if (cmd === `Hello`) {
-    message.reply(`hello!`)
-  }
-})
-
-/*
-client.on("message", async (message) => {
-  client.on('messageDelete', message => {
-    if (message.channel.type === "dm") return;
-    if (message.channel.id === `931628582713835531`) return;
-    if (message.channel.id === '932489232008769546') return
-    if (message.guild.id !== "931626981047545946") return;
-    snipes.set(message.channel.id, message)
-
-    const LogChannel = client.channels.cache.get(modlog)
-    const DeletedLog = new Discord.MessageEmbed()
-      .setTitle("Deleted Message")
-      .addField('Deleted by', `${message.author} - (${message.author.id})`)
-      .addField("In", message.channel)
-      .addField('Content', message.content)
-      .setColor('RED')
-      .setThumbnail(message.author.displayAvatarURL({
-        dynamic: true
-      }))
-    try {
-      return LogChannel.send(DeletedLog)
-    } catch (error) {
-      console.log(' ')
+  }/*
+  if (message.guild.id === "931626981047545946") {
+    if (cmd === `hello`) {
+      message.reply(`hello!`)
     }
-  })
-})
-
-client.on("message", async message => {
-  client.on('messageUpdate', async (oldMessage, newMessage) => {
-    if (message.channel.type === "dm") return;
-    if (message.channel.id === '932489232008769546') return
-    if (message.channel.id === `931628582713835531`) return;
-    if (message.guild.id !== "931626981047545946") return;
-
-    const LogChannel = client.channels.cache.get(modlog)
-    const EditedLog = new Discord.MessageEmbed()
-      .setTitle("Edited Message")
-      .addField('Edited by', `${oldMessage.author} - (${oldMessage.author.id})`)
-      .addField("In", oldMessage.channel)
-      .addField('Old Message', oldMessage.content)
-      .addField('New Message', newMessage.content)
-      .setColor('GREEN')
-      .setThumbnail(oldMessage.author.displayAvatarURL({
-        dynamic: true
-      }))
-    try {
-      return LogChannel.send(EditedLog)
-    } catch (e) {
-      console.log(' ')
+    if (cmd === `hi`) {
+      message.reply(`hello`)
     }
-  })
-}); 
-/*
-client.on("message", async (message) => {
-  let aich = client.channels.cache.get('943307314012778566');
-  let auth = message.author.id
+    if (cmd === `Hello`) {
+      message.reply(`hello!`)
+    }
+  } else if (message.guild.id !== "931626981047545946") {
+    return;
+  } */
+});
 
-  if (message.channel === aich) {
-    fetch(`https://api.monkedev.com/fun/chat?msg=${message.content}&uid=${auth}`)
-      .then(res => res.json())
-      .then(data => {
-        message.channel.send(data.response)
-      })
-  } else if (message.channel !== aich) return;
-})
-
-/*
-if(message.channel.type === "dm") {
-    const dmEmbed = new Discord.MessageEmbed()
-    .setTitle('New DM')
-    .setColor("RANDOM")
-    .setTimestamp()
-    .setDescription(`**User:** ${message.author.tag}\n**User ID:** ${message.author.id}\n**At:** ${new Date()}\n\n**Content:** \`\`\`${message.content}\`\`\``)
-    
-    const DMC = client.channels.cache.get('933818731421892608')
-    DMC.send(dmEmbed)
-} */
-
-client.login("SECRET")
+client.login(BotToken)
