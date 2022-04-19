@@ -28,9 +28,8 @@ module.exports = {
           message.guild.emojis.create(
               `${Link}`,
               `${`${emoji.name}`}`
-            ).then(em => message.channel.send(em.toString() + " added!"))
-            .then(em => message.channel.send(em.toString() + `has been added! \nLink to download the emoji (here)[${Link}]`)).catch(error => {
-              message.channel.send(":x: | an Error occured")
+            ).then(em => message.channel.send(em.toString() + `has been added! \nLink to download the emoji [here](${Link})`)).catch(error => {
+              message.channel.send(":x: | an Error occured. Please contact support!")
               console.log(error)
             })
 

@@ -10,7 +10,7 @@ const {
 } = require("../../funct.js");
 const config = require("../../config.json")
 const modlog = config.modlog
-
+const tsmodlog = config.tsmodlog
 module.exports = {
     name: "kick",
     category: "moderation",
@@ -20,6 +20,7 @@ module.exports = {
         if (message.deletable) message.delete();
         if (message.partial) await message.fetch();
         bot.modlog = `<#${modlog}>`;
+        bot.tsmodlog = `<#${tsmodlog}>`
 
         if (message.channel.type === "dm") {
             return message.channel.send(`This command can only be used in a server!`)
@@ -28,7 +29,6 @@ module.exports = {
             // No author permissions
             if (!message.member.hasPermission("BAN_MEMBERS")) {
                 return message.reply("❌ You do not have permissions to ban members. Please contact a staff member")
-
             }
 
             // No args
@@ -53,14 +53,19 @@ module.exports = {
                 return message.reply("Couldn't find that member, try again")
             }
 
-            // Can't kick urself
+            // Can't kick my creator
+            if (toKick.id == "569681110360129536") {
+                return message.reply("Sorry I'm not kicking my creator. Do it yourself!")
+            }
+
+            // Can't kick yourself
             if (toKick.id === message.author.id) {
                 return message.reply("You can't kick yourself...")
             }
 
-            // Check if the user's kickable
+            // Check if the user is kickable
             if (!toKick.kickable) {
-                return message.reply("I can't kick that person due to role hierarchy, I suppose.")
+                return message.reply("I can't kick that person due to role hierarchy")
             }
 
             const embed = new MessageEmbed()
@@ -68,7 +73,7 @@ module.exports = {
                 .setThumbnail(toKick.user.displayAvatarURL())
                 .setFooter(message.member.displayName, message.author.displayAvatarURL())
                 .setTimestamp()
-                .setDescription(stripIndents `**- Kicked member:** ${toKick} (${toKick.id})
+                .setDescription(stripIndents `**- Kicked Member:** ${toKick} (${toKick.id})
             **- Kicked by:** ${message.member} (${message.member.id})
             **- Reason:** ${args.slice(1).join(" ")}`);
 
@@ -83,13 +88,13 @@ module.exports = {
 
             const promptEmbed = new MessageEmbed()
                 .setColor("GREEN")
-                .setAuthor(`This verification becomes invalid after 30s.`)
+                .setAuthor(`This verification becomes invalid after 60s.`)
                 .setDescription(`Do you want to kick ${toKick}?`)
 
             // Send the message
             await message.channel.send(promptEmbed).then(async msg => {
                 // Await the reactions and the reaction collector
-                const emoji = await promptMessage(msg, message.author, 30, ["✅", "❌"]);
+                const emoji = await promptMessage(msg, message.author, 60, ["✅", "❌"]);
 
                 // The verification stuffs
                 if (emoji === "✅") {
@@ -97,21 +102,27 @@ module.exports = {
 
                     toKick.kick(args.slice(1).join(" "))
                         .catch(err => {
-                            if (err) return message.guild.channels.cache.get(modlog).send(`Well.... the kick didn't work out. Here's the error ${err}`)
-                            if (!modlog) return message.reply(`Well.... the kick didn't work out. Here's the error ${err}`)
+                            if (message.guild.id === "930503589707792435") {
+                                if (err) return bot.channels.cache.get(tsmodlog).send(`Error in using the **kick** command: \n${err}`)
+                            } else {
+                                if (err) return bot.channels.cache.get(modlog).send(`The kick didn't work. Here's the error ${err}`)
+                                if (!modlog) return message.reply(`The kick didn't work. Here's the error ${err}`)
+                            }
                         });
-
-                    message.guild.channels.cache.get(modlog).send(embed);
+                    bot.channels.cache.get(modlog).send(embed);
                     toKick.send(`you have been kicked from ${message.guild.name} \n\nReason: ${args.slice(1).join(" ")}`)
                 } else if (emoji === "❌") {
                     msg.delete()
                         .then(() => {
-                            message.guild.channels.cache.get(modlog).send(no);
-                            if (!modlog) return message.channel.send(no);
+                            if (message.guild.id === "930503589707792435") {
+                                return bot.channels.cache.get(tsmodlog).send(no)
+                            } else {
+                                bot.channels.cache.get(modlog).send(no);
+                                if (!modlog) return message.channel.send(no);
+                            }
                         })
 
                     message.reply(`Kick canceled.`)
-
                 }
             });
         }

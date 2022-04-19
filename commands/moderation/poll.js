@@ -14,7 +14,7 @@ module.exports = {
         return message.channel.send(`You do not have the permissions!, ${message.author.username}`);
       const channel =
         message.mentions.channels.first() ||
-        message.guild.channels.cache.get(args[0]);
+        bot.channels.cache.get(args[0]);
       if (!channel) {
         return message.channel.send(`You did not mention / give the id of your channel!`);
       }
@@ -28,6 +28,11 @@ module.exports = {
       let msg = await bot.channels.cache.get(channel.id).send(Embed);
       await msg.react("👍");
       await msg.react("👎");
+      if (message.guild.id === "930503589707792435") {
+        return bot.channels.cache.get(tsmodlog).send(`${message.author.tag} sent a poll in ${channel.name}`)
+      } else {
+        return bot.channels.cache.get(modlog).send(`${message.author} has sent a poll in ${channel}`)
+      }
     }
   },
 };

@@ -7,7 +7,7 @@ module.exports = {
   timeout: 10000,
   run: async (bot, message, args) => {
     message.channel.send(`🏓 Pinging...`).then((msg) => {
-      const _ = new Discord.MessageEmbed()
+      const botping = new Discord.MessageEmbed()
         .setTitle("Pong!")
         .setDescription(
           `🏓 Pong!\nLatency is ${Math.floor(
@@ -16,7 +16,7 @@ module.exports = {
         )
         .setColor("RANDOM")
         .setTimestamp();
-      msg.edit(_);
+      msg.edit(botping);
     });
   },
 };

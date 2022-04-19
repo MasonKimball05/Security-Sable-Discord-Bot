@@ -2,16 +2,16 @@ const {
   MessageEmbed
 } = require('discord.js')
 const config = require("../../config.json")
-const {
-  modlog
-} = config.modlog
+const modlog = config.modlog
+const tsmodlog = config.tsmodlog
 module.exports = {
   name: "removerole",
   aliases: ["rmrole", "-role"],
   category: "moderation",
   description: "Remove role from any user",
   run: async (bot, message, args) => {
-    bot.modlog = `<#${modlog}>`
+    bot.modlog = `<#${modlog}>`;
+    bot.tsmodlog = `<#${tsmodlog}>`
 
     if (message.channel.type === "dm") {
       return message.channel.send(`This command can only be used in a server!`)
@@ -46,8 +46,11 @@ module.exports = {
         .setTimestamp()
 
       await message.channel.send(embed)
-      bot.channels.cache.get(modlog).send(embed)
-
+      if (message.guild.id === "930503589707792435") {
+        return bot.channels.cache.get(tsmodlog).send(embed)
+      } else {
+        bot.channels.cache.get(modlog).send(embed)
+      }
       target.roles.remove(rrole)
     }
   }

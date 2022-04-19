@@ -1,5 +1,6 @@
 const config = require("../../config.json")
 const modlog = config.modlog
+const tsmodlog = config.tsmodlog
 const {
     MessageEmbed
 } = require("discord.js")
@@ -10,12 +11,12 @@ module.exports = {
     usage: "userpurge <MENTION>",
     description: "Purge message from a specific user",
     run: async (client, message, args) => {
+        client.modlog = `<#${modlog}>`
+        client.tsmodlog = `<#${tsmodlog}>`
 
         if (message.channel.type === "dm") {
             return message.channel.send(`This command can only be used in a server!`)
         } else if (message.channel.type !== "dm") {
-
-            client.modlog = `<#${modlog}>`
 
             if (!message.member.hasPermission('MANAGE_MESSAGES')) return message.reply("you dont have the permissions to use this command")
             let member = message.mentions.members.first()
@@ -71,7 +72,11 @@ module.exports = {
                     .setColor('#f2f2f2')
 
                 await message.channel.send(embed)
-                client.channels.cache.get(modlog).send(`${message.author} has deleted ${amount} from ${member} in <#${message.channel.id}>`)
+                if (message.guild.id === "930503589707792435") {
+                    return client.channels.cache.get(tsmodlog).send(`${message.author.username} has deleted $${amount} from ${member.username} in ${message.channel.name}`)
+                } else {
+                    client.channels.cache.get(modlog).send(`${message.author} has deleted ${amount} from ${member} in <#${message.channel.id}>`)
+                }
             }
         }
     }

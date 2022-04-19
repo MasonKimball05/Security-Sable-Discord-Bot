@@ -29,7 +29,7 @@ module.exports = {
         var bool = false;
         if (channel.name == userName.toLowerCase() + "-" + userDiscriminator) {
 
-            message.channel.send("You already made a ticket open!");
+            message.channel.send("You already made a ticket!");
 
             bool = true;
 
@@ -46,7 +46,7 @@ module.exports = {
         // Create channel and put it in the right catogary
         message.guild.createChannel(userName + "-" + userDiscriminator, "text").then((createdChan) => { // Maak kanaal
 
-            createdChan.setParent(ticketcategory).then((settedParent) => { // Zet kanaal in category.
+            createdChan.setParent(ticketcategory).then((settedParent) => {
 
                 // Put permissions for everyone
                 settedParent.overwritePermissions(message.guild.roles.find('name', "@everyone"), {

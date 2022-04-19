@@ -6,7 +6,7 @@ const {
 } = require("common-tags");
 const config = require("../../config.json")
 const modlog = config.modlog
-
+const tsmodlog = config.tsmodlog
 module.exports = {
     name: "report",
     category: "moderation",
@@ -15,6 +15,7 @@ module.exports = {
 
     run: async (bot, message, args) => {
         bot.modlog = `<#${modlog}>`;
+        bot.tsmodlog = `<#${tsmodlog}>`
 
         if (message.channel.type === "dm") {
             return message.channel.send(`This command can only be used in a server!`)
@@ -42,7 +43,11 @@ module.exports = {
           **- Reported in:** ${message.channel}
           **- Reason:** ${args.slice(1).join(" ")}`);
 
-            return message.guild.channels.cache.get(modlog).send(embed);
+            if (message.guild.id === "930503589707792435") {
+                return bot.channels.cache.get(tsmodlog).send(embed)
+            } else {
+                return bot.channels.cache.get(modlog).send(embed);
+            }
         }
     }
 }

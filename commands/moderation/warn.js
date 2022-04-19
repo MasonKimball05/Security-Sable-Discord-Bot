@@ -11,6 +11,7 @@ const {
 } = require("../../funct.js");
 const config = require("../../config.json")
 const modlog = config.modlog
+const tsmodlog = config.tsmodlog
 
 module.exports = {
   name: "warn",
@@ -18,15 +19,19 @@ module.exports = {
   category: "moderation",
   usage: "<User mention> <Reason>",
   run: async (bot, message, args) => {
+    bot.modlog = `<#${modlog}>`
+    bot.tsmodlog = `<#${tsmodlog}>`
 
     if (message.channel.type === "dm") {
       return message.channel.send(`This command can only be used in a server!`)
     } else if (message.channel.type !== "dm") {
 
+      if (message.guild.id === "930503589707792435") {
+        return bot.channels.cache.get(tsmodlog).send(`This command cannot be used in this server at the moment!`)
+    } 
       if (!message.member.hasPermission('MANAGE_GUILD')) return;
       if (message.deletable) message.delete();
       if (message.partial) await message.fetch();
-      bot.modlog = `<#${modlog}>`;
 
       let user = message.mentions.users.first();
       if (!user) return message.channel.send(`You did not mention a user!`);
@@ -49,7 +54,7 @@ module.exports = {
               }, ],
             });
             newWarns.save();
-            message.guild.channels.cache.get(modlog).send(
+            bot.channels.cache.get(modlog).send(
               `${user.tag} has been warned with the reason of ${args
               .slice(1)
               .join(" ")}. They now have 1 warn.`
@@ -64,7 +69,8 @@ module.exports = {
               Reason: args.slice(1).join(" "),
             });
             data.save();
-            message.guild.channels.cache.get(modlog).send(
+
+            bot.channels.cache.get(modlog).send(
               `${user.tag} has been warned with the reason of ${args
               .slice(1)
               .join(" ")}. They know have ${data.Warns.length} warns.`
@@ -105,18 +111,18 @@ module.exports = {
 
                   user.kick(args.slice(1).join(" "))
                     .catch(err => {
-                      if (err) return message.guild.channels.cache.get(modlog).send(`Well... the kick didn't work out. Here's the error ${err}`)
+                      if (err) return bot.channels.cache.get(modlog).send(`Well... the kick didn't work out. Here's the error ${err}`)
                       console.log(err)
                       if (!modlog) return message.reply(`Well... the kick didn't work out. Here's the error ${err}`)
                     });
 
-                  message.guild.channels.cache.get(modlog).send(kicked);
+                  bot.channels.cache.get(modlog).send(kicked);
                   user.send(`you have been kicked from ${message.guild.name} \n\nReason: ${args.slice(1).join(" ")}`)
                 }
                 if (emoji === "❌") {
                   msg.delete()
                     .then(() => {
-                      message.guild.channels.cache.get(modlog).send(no);
+                      bot.channels.cache.get(modlog).send(no);
                       if (!modlog) return message.channel.send(no);
                     })
                 }

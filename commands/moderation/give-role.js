@@ -1,5 +1,7 @@
 const config = require("../../config.json")
 const modlog = config.modlog
+const tsmodlog = config.tsmodlog
+
 const {
     MessageEmbed
 } = require('discord.js');
@@ -12,6 +14,7 @@ module.exports = {
     accessableby: "Moderators",
     run: async (bot, message, args) => {
         bot.modlog = `<#${modlog}>`;
+        bot.tsmodlog = `<#${tsmodlog}>`
 
         if (message.channel.type === "dm") {
             return message.channel.send(`This command can only be used in a server!`)
@@ -41,8 +44,11 @@ module.exports = {
 
                 if (!modlog) return message.channel.send(embed)
                 message.reply(`${member} has successfully gained the role ${roleName}`)
-                return member.roles.add(roleName).then(() => message.guild.channels.cache.get(modlog).send(embed));
-
+                if (message.guild.id === "930503589707792435") {
+                    return member.roles.add(roleName).then(() => bot.channels.cache.get(tsmodlog).send(embed))
+                } else {
+                    return member.roles.add(roleName).then(() => bot.channels.cache.get(modlog).send(embed));
+                }
             } catch (e) {
                 return message.channel.send('Try to give a role that exists next time...').then(() => console.log(e))
             }

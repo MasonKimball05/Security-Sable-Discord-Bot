@@ -1,5 +1,7 @@
 const discord = require("discord.js");
-const { MessageEmbed } = require("discord.js");
+const {
+  MessageEmbed
+} = require("discord.js");
 const sourcebin = require("sourcebin_js");
 module.exports = {
   name: "hastebin",
@@ -9,17 +11,16 @@ module.exports = {
   aliases: ["haste"],
   run: async (client, message, args) => {
     message.delete();
+    if (!args[0]) return message.reply(`you need to actually send something.`)
     const Content = args.join(" ");
     sourcebin
-      .create([
-        {
-          title: "JavaScript code",
-          description: 'This code was created in "' + message.createdAt + '"',
-          name: "Made By " + message.author.username,
-          content: Content,
-          languageId: "JavaScript"
-        }
-      ])
+      .create([{
+        title: "JavaScript code",
+        description: 'This code was created in "' + message.createdAt + '"',
+        name: "Made By " + message.author.username,
+        content: Content,
+        languageId: "JavaScript"
+      }])
       .then(src => {
         let embed = new discord.MessageEmbed()
           .setTitle(`Hastebin`)

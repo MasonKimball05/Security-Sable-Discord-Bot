@@ -3,13 +3,15 @@ const {
 } = require('discord.js');
 const config = require("../../config.json")
 const modlog = config.modlog
-
+const tsmodlog = config.tsmodlog
 module.exports = {
     name: 'unban',
     description: "unbans target member",
     category: "moderation",
     accessableby: "Moderators",
     run: async (bot, message, args) => {
+        bot.modlog = `<#${modlog}>`
+        bot.tsmodlog = `<#${tsmodlog}>`
 
         if (message.channel.type === "dm") {
             return message.channel.send(`This command can only be used in a server!`)
@@ -18,7 +20,6 @@ module.exports = {
             if (!message.member.hasPermission('BAN_MEMBERS')) return message.channel.send('You are missing **BAN_MEMBERS** permission!').then(m => m.delete({
                 timeout: 5000
             }));
-            bot.modlog = `<#${modlog}>`;
 
             if (!args[0]) return message.channel.send('please enter a users id to unban!').then(m => m.delete({
                 timeout: 5000
@@ -53,12 +54,16 @@ module.exports = {
                         .addField('user Tag', user.user.tag, true)
                         .addField('Banned Reason', user.reason != null ? user.reason : 'no reason')
                         .addField('Unbanned Reason', reason)
-                    message.guild.members.unban(user.user.id, reason).then(() => message.guild.channels.cache.get(modlog.channel).send(embed))
+                    message.guild.members.unban(user.user.id, reason).then(() => bot.channels.cache.get(modlog).send(embed))
                 } else {
                     embed.setTitle(`User ${member.tag} isn't banned!`)
                         .setColor('BLACK')
-                    message.guild.channels.cache.get(modlog).send(embed)
-                    if (!modlog) return message.channel.send(embed)
+                    if (message.guild.id === "930503589707792435") {
+                        return bot.channels.cache.get(tsmodlog).send(embed)
+                    } else {
+                        bot.channels.cache.get(modlog).send(embed)
+                        if (!modlog) return message.channel.send(embed)
+                    }
                 }
 
             }).catch(e => {

@@ -3,7 +3,7 @@ const {
 } = require("discord.js");
 const config = require("../../config.json")
 const modlog = config.modlog
-
+const tsmodlog = config.tsmodlog
 module.exports = {
   name: "dm",
   description: "DM a user in the guild",
@@ -11,6 +11,7 @@ module.exports = {
   accessableby: "Moderators",
   run: async (bot, message, args) => {
     bot.modlog = `<#${modlog}>`;
+    bot.tsmodlog = `<#${tsmodlog}>`
 
     if (message.channel.type === "dm") {
       return message.channel.send(`This command can only be used in a server!`)
@@ -38,8 +39,12 @@ module.exports = {
         .setTimestamp()
         .setColor(user.displayHexColor === '#000000' ? '#ffffff' : user.displayHexColor)
       message.channel.send(embed);
-      message.guild.channels.cache.get(modlog).send(embed)
-      if (!modlog) return;
+      if (message.guild.id === "930503589707792435") {
+        return bot.channels.cache.get(tsmodlog).send(embed)
+      } else {
+        bot.channels.cache.get(modlog).send(embed)
+        if (!modlog) return;
+      }
     }
   },
 };

@@ -1,4 +1,6 @@
-const { MessageEmbed } = require("discord.js");
+const {
+  MessageEmbed
+} = require("discord.js");
 module.exports = {
   name: "8ball",
   description: "There is a big chance I insult you!",
@@ -16,7 +18,8 @@ module.exports = {
         "Absoloutely",
         "Not in a million years",
         "Not sure",
-        "Perhaps"
+        "Perhaps",
+        "Absoloutely not"
       ];
       let response =
         responses[Math.floor(Math.random() * responses.length - 1)];

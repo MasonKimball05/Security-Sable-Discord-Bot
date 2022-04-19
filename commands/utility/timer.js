@@ -43,7 +43,7 @@ module.exports = {
         );
         setTimeout(() => {
             let Embed = new MessageEmbed()
-                .setTitle(`Timer finished in guild ${message.guild.name}..`)
+                .setTitle(`Timer finished in guild ${message.guild.name}`)
                 .setDescription(
                     `Your timer for ${args[0]} (${ms(args[0])}MS) has finished!`
                 )

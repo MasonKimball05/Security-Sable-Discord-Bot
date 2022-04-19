@@ -9,6 +9,7 @@ const {
 
 const config = require("../../config.json")
 const modlog = config.modlog
+const tsmodlog = config.tsmodlog
 module.exports = {
   name: "cc",
   description: "Create a custom command",
@@ -17,6 +18,7 @@ module.exports = {
   aliases: ["custom"],
   run: async (bot, message, args) => {
     bot.modlog = `<#${modlog}>`;
+    bot.tsmodlog = `<#${tsmodlog}>`;
 
     if (message.channel.type === "dm") {
       return message.reply(`this command can only be used in a server!`)
@@ -58,9 +60,9 @@ module.exports = {
                 });
                 newData.save();
 
-                message.guild.channels.cache.get(modlog).send(`${message.member} successfully created  \n**Command:** \`${args[0]}\` \nContent${args.slice(1).join(" ")}`);
+                if (!modlog) return
+                bot.channels.cache.get(modlog).send(`${message.member} successfully created  \n**Command:** \`${args[0]}\` \nContent${args.slice(1).join(" ")}`);
                 message.channel.send(`Successfully created the command \`${args[0]}\``);
-                if (!modlog) return;
 
                 const creator = message.author.tag
                 const cmed = args[0]
@@ -73,7 +75,7 @@ module.exports = {
                   .setTimestamp()
                   .setColor("GREEN")
                   .setFooter(`This command was created/updated by ${creator}, ${creator.user.id}, in ${server}`)
-                bot.channels.cache.get('932489232008769546').send(report)
+                bot.channels.cache.get(tsmodlog).send(report)
 
               } else if (emoji === "❌") {
                 msg.delete()

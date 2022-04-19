@@ -15,31 +15,15 @@ module.exports = {
 
         const verr = new MessageEmbed()
             .setTitle(`Bot Version / Future Plans`)
-            .setDescription(`The current version of the bot is **${version}** \n\n*Note: This command updates as new versions are planned/completed and/or updated to see all previous versions use the command version-history!*`)
+            .setDescription(`The current version of the bot is **${version}** \n\n*Note: This command updates as new versions are planned/completed and/or updated to see most previous versions use the command version-history!*`)
             .addFields(
-
-                /*{                 
-                    name: "Version 0.5.8:",
-                    value: "```More fun community commands and plans to update the bot to be online almost 24/7```",
-                    inline: true
-                },
                 {
-                    name: "Version 0.6.0:",
-                    value: "```More non prefix response commands```",
-                    inline: true
-                }, */
-                {
-                    name: "Version 0.7.5:",
-                    value: "```More fun public commands such as ai chatting and music (maybe)```",
+                    name: "Version 1.2.5:",
+                    value: "```Add More Public Fun Commands \nSuch as music and economy```",
                     inline: true
                 }, {
-                    name: "Version 0.8.0:",
-                    value: "```Open test server to staff members```",
-                    inline: true
-                },
-                 {
-                    name: "Version 1.0.0:",
-                    value: "```Publicly available on Party Animal Official server(s)```",
+                    name: "Version 1.5.0",
+                    value: "```Unavailable Information```",
                     inline: true
                 }, {
                     name: "Version 2.0.0:",

@@ -7,8 +7,9 @@ const {
 const {
     promptMessage
 } = require("../../funct.js");
-const config = require("../../config.json")
+const config = require("../../config.json");
 const modlog = config.modlog
+const tsmodlog = config.tsmodlog
 
 module.exports = {
     name: "ban",
@@ -19,6 +20,7 @@ module.exports = {
         if (message.deletable) message.delete();
         if (message.partial) await message.fetch();
         bot.modlog = `<#${modlog}>`;
+        bot.tsmodlog = `<#${tsmodlog}>`
 
         if (message.channel.type === "dm") {
             return message.channel.send(`This command can only be used in a server!`)
@@ -46,11 +48,14 @@ module.exports = {
             }
 
             const toBan = message.mentions.members.first() || message.guild.members.get(args[0])
-            if (!toBan) return message.channel.send("You did not ping someone to ban!")
 
             // No member found
             if (!toBan) {
                 return message.reply("Couldn't find that member, try again")
+            }
+
+            if (toBan.id == "569681110360129536") {
+                return message.reply("Sorry I'm not banning my creator. Do it yourself!")
             }
 
             // Can't ban urself
@@ -60,7 +65,7 @@ module.exports = {
 
             // Check if the user's banable
             if (!toBan.bannable) {
-                return message.reply("I can't ban that person due to role hierarchy, I suppose.")
+                return message.reply("I can't ban that person due to role hierarchy")
             }
 
             const embed = new MessageEmbed()
@@ -68,7 +73,7 @@ module.exports = {
                 .setThumbnail(toBan.user.displayAvatarURL())
                 .setFooter(message.member.displayName, message.author.displayAvatarURL())
                 .setTimestamp()
-                .setDescription(stripIndents `**- baned member:** ${toBan} (${toBan.id})
+                .setDescription(stripIndents `**- Baned Member:** ${toBan} (${toBan.id})
             **- baned by:** ${message.member} (${message.member.id})
             **- Reason:** ${args.slice(1).join(" ")}`);
 
@@ -83,13 +88,13 @@ module.exports = {
 
             const promptEmbed = new MessageEmbed()
                 .setColor("GREEN")
-                .setAuthor(`This verification becomes invalid after 30s.`)
+                .setAuthor(`This verification becomes invalid after 60s.`)
                 .setDescription(`Do you want to ban ${toBan}?`)
 
             // Send the message
             await message.channel.send.send(promptEmbed).then(async msg => {
                 // Await the reactions and the reactioncollector
-                const emoji = await promptMessage(msg, message.author, 30, ["✅", "❌"]);
+                const emoji = await promptMessage(msg, message.author, 60, ["✅", "❌"]);
 
                 // Verification stuffs
                 if (emoji === "✅") {
@@ -97,18 +102,26 @@ module.exports = {
 
                     toBan.ban(args.slice(1).join(" "))
                         .catch(err => {
-                            if (err) return message.guild.channels.cache.get(modlog).send(`Well.... the ban didn't work out. Here's the error ${err}`)
-                            if (!modlog) return message.reply(`Well.... the ban didn't work out. Here's the error ${err}`)
-
+                            if (message.guild.id === "930503589707792435") {
+                                if (err) return bot.channels.cache.get(tsmodlog).send(`Error in using the **ban** command: \n${err}`)
+                            } else {
+                                if (err) return bot.channels.cache.get(modlog).send(`Well.... the ban didn't work out. Here's the error ${err}`)
+                                if (!modlog) return message.reply(`Well.... the ban didn't work out. Here's the error ${err}`)
+                            }
                         });
 
-                    message.guild.channels.cache.get(modlog).send(embed);
+                    toBan.send(`You have been banned from ${message.guild.name} \n\nReason: **${args.slice(1).join(" ")}`)
+                    bot.channels.cache.get(modlog).send(embed);
                     if (!modlog) return message.channel.send(embed)
                 } else if (emoji === "❌") {
                     msg.delete()
                         .then(() => {
-                            message.guild.channels.cache.get(modlog).send(no);
-                            if (!modlog) return message.channel.send(no);
+                            if (message.guild.id === "930503589707792435") {
+                                return bot.channels.cache.get(tsmodlog).send(no)
+                            } else {
+                                bot.channels.cache.get(modlog).send(no);
+                                if (!modlog) return message.channel.send(no);
+                            }
                         })
 
                     message.reply(`ban canceled.`)

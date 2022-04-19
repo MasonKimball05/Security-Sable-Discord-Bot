@@ -42,7 +42,7 @@ module.exports = {
     } else if (toggle.includes(args[0])) {
 
         const em = new MessageEmbed()
-        .setAuthor(`Party Animals Github Code`)
+        .setAuthor(`Security Sable Github Code`)
         .setColor("RED")
         .addField(`Author Username`, `${login}`)
         .addField(`Link to Bot Author's Github`, `https://github.com/ArkanReborn`)

@@ -86,8 +86,8 @@ module.exports = {
 
             // Date
             let x = Date.now() - message.guild.createdAt;
-            let h = Math.floor(x / 86400000) // 86400000, 5 digits-zero.
-            let created = dateformat(message.guild.createdAt); // Install "dateformat" first.
+            let h = Math.floor(x / 86400000);
+            let created = dateformat(message.guild.createdAt); 
 
             const embed = new MessageEmbed()
                 .setColor(0x7289DA)

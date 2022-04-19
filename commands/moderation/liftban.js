@@ -9,7 +9,9 @@ const {
     getUserID
 } = require("../../util/functions");
 const messenger = require('../../local-frameworks/messenger.js');
-
+const config = require("../../config.json")
+const modlog = config.modlog
+const tsmodlog = config.tsmodlog
 
 module.exports = {
     name: "liftban",
@@ -19,6 +21,8 @@ module.exports = {
     usage: "[command] [userID / userMention] [reason]",
     example: `liftban 12345678912345678 Ban is no longer active`,
     run: async (bot, message, args) => {
+        bot.modlog = `<#${modlog}>`
+        bot.tsmodlog = `<#${tsmodlog}>`
 
         if (message.channel.type === "dm") {
             return message.channel.send(`This command can only be used in a server!`)

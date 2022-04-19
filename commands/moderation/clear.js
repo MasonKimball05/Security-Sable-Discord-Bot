@@ -3,7 +3,7 @@ const {
 } = require('discord.js')
 const config = require("../../config.json")
 const modlog = config.modlog
-
+const tsmodlog = config.tsmodlog
 module.exports = {
     name: "clear",
     description: "Clears messages from chat",
@@ -12,6 +12,8 @@ module.exports = {
     aliases: ["purge", "delete"],
     run: async (bot, message, args) => {
         bot.modlog = `<#${modlog}>`;
+        bot.tsmodlog = `<#${tsmodlog}>`
+
         if (message.deletable) message.delete();
         if (message.partial) await message.fetch();
 
@@ -45,8 +47,12 @@ module.exports = {
                 .setTimestamp()
                 .setColor('#f2f2f2')
             await message.channel.send(embed)
-            message.guild.channels.cache.get(modlog).send(`${message.author} deleted ${deleteAmount} messages in ${message.channel}`)
-            if (!modlog) return;
+            if (message.guild.id === "930503589707792435") {
+                return bot.channels.cache.get(tsmodlog).send(`${message.author.tag} deleted ${deleteAmount} messages in ${message.channel.name}`)
+            } else {
+                bot.channels.cache.get(modlog).send(`${message.author} deleted ${deleteAmount} messages in ${message.channel}`)
+                if (!modlog) return;
+            }
         }
     }
 }

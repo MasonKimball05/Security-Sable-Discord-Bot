@@ -1,6 +1,10 @@
 const Discord = require("discord.js");
-const { MessageEmbed } = require("discord.js");
-const { Color } = require("../../config.json");
+const {
+  MessageEmbed
+} = require("discord.js");
+const {
+  Color
+} = require("../../config.json");
 
 module.exports = {
   name: "avatar",
@@ -15,10 +19,10 @@ module.exports = {
       let Member = message.author
 
       let embed = new Discord.MessageEmbed()
-      .setColor(Color)
-      .addField(
-        "Image Download Links",
-        `[Png](${Member.displayAvatarURL({
+        .setColor(Color)
+        .addField(
+          "Image Download Links",
+          `[Png](${Member.displayAvatarURL({
           format: "png",
           dynamic: true
         })}) | [Jpg](${Member.displayAvatarURL({
@@ -28,22 +32,24 @@ module.exports = {
           format: "webp",
           dynamic: true
         })})`
-      )
-      .setImage(Member.displayAvatarURL({ dynamic: true }))
-      .setTimestamp()
-      .setFooter(`${message.author.tag}'s profile picture`);
+        )
+        .setImage(Member.displayAvatarURL({
+          dynamic: true
+        }))
+        .setTimestamp()
+        .setFooter(`Your profile picture`);
 
-    message.channel.send(embed)
+      message.channel.send(embed)
 
-     } else if (message.channel.type !== "dm") {
+    } else if (message.channel.type !== "dm") {
 
-    let Member = message.mentions.users.first() || message.guild.member(args[0]) || message.author;
+      let Member = message.mentions.users.first() || message.guild.member(args[0]) || message.author;
 
-    let embed = new Discord.MessageEmbed()
-      .setColor(Color)
-      .addField(
-        "Image Download Links",
-        `[Png](${Member.displayAvatarURL({
+      let embed = new Discord.MessageEmbed()
+        .setColor(Color)
+        .addField(
+          "Image Download Links",
+          `[Png](${Member.displayAvatarURL({
           format: "png",
           dynamic: true
         })}) | [Jpg](${Member.displayAvatarURL({
@@ -53,13 +59,15 @@ module.exports = {
           format: "webp",
           dynamic: true
         })})`
-      )
-      .setImage(Member.displayAvatarURL({ dynamic: true }))
-      .setTimestamp()
-      .setFooter(`${message.author.tag}'s profile picture`);
+        )
+        .setImage(Member.displayAvatarURL({
+          dynamic: true
+        }))
+        .setTimestamp()
+        .setFooter(`${message.author.tag}'s profile picture`);
 
-    message.channel.send(embed);
+      message.channel.send(embed);
 
+    }
   }
-}
 };
