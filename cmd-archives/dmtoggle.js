@@ -2,9 +2,9 @@ const {
     MessageEmbed
 } = require("discord.js");
 const Data = require("../../models/toggle")
-const config = require("../../config.json")
+const token = require("../../token.json")
 const mongoose = require("mongoose")
-mongoose.connect(config.mongoToken, {
+mongoose.connect(token.Mongo, {
     useNewUrlParser: true,
     useUnifiedTopology: true,
 })

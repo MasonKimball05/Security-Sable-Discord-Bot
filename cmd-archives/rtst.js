@@ -42,7 +42,7 @@ module.exports = {
 
                 if (!modlog) return message.channel.send(embed)
                 message.reply(`${member} has successfully gained the role ${roleName}`)
-                return member.roles.add(roleName).then(() => message.guild.channels.cache.get(modlog).send(embed));
+                return member.roles.add(roleName).then(() => bot.channels.cache.get(modlog).send(embed));
 
             } catch (e) {
                 return message.channel.send('Error in applying the role.').then(() => console.log(e))
