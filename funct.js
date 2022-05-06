@@ -1,4 +1,4 @@
-const db = require('./schemas/db.js');
+const custom = require('./models/custom.js');
 const { MessageEmbed } = require("discord.js");
 const { stripIndents } = require("common-tags");
 
@@ -49,7 +49,7 @@ module.exports = {
         let guildID = message.guild.id;
 
         let commandStatus = await
-            db.findOne({
+            custom.findOne({
                 guildID: guildID,
                 commands: { $elemMatch: { name: command } }
             });
@@ -107,7 +107,7 @@ module.exports = {
         let month = (1 + date.getMonth()).toString().padStart(2, '0');
         let day = date.getDate().toString().padStart(2, '0');
 
-        return month + '/' + day + '/' + year;
+        return day + '/' + month + '/' + year;
     },
 
     //Adds certain reactions, returns first user
@@ -200,7 +200,7 @@ module.exports = {
     },
 
     checkMuteRole: async function (message) {
-        let muterole = message.guild.roles.cache.find(r => r.name === "Muted")
+        let muterole = message.guild.roles.cache.find(r => r.id === "954865201193291796")
         if (!muterole) {
             try {
                 muterole = await message.guild.roles.create({

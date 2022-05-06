@@ -1,3 +1,4 @@
+const { boolean } = require("mathjs");
 const mongoose = require("mongoose")
 
 const Schema = mongoose.Schema({
@@ -11,9 +12,9 @@ const Schema = mongoose.Schema({
         wallet: Number,
         bank: Number,
     }],
-    vip1: Number,
-    vip2: Number,
-    vip3: Number,
+    vip1: boolean,
+    vip2: boolean,
+    vip3: boolean,
     rod: [{
         hp: Number,
         amount: Number

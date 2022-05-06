@@ -1,10 +1,6 @@
 const mongoose = require("mongoose")
-
-const Schema = mongoose.Schema({
-
-    dms: String,
-    automod: String,
-    server: String
+let Schema = new mongoose.Schema({
+    Guild: String,
+    command: String
 })
-
-module.exports = mongoose.model("Data", Schema);
+module.exports = mongoose.model('toggle', Schema);
